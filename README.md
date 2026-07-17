@@ -56,7 +56,7 @@ GitHub 的模板放在 repo 根目錄的 `.github/` 資料夾即可生效。把�
 
 ```bash
 # 在你自己的專案根目錄執行
-git clone https://github.com/oliviaiii1224/issue_tmp.git /tmp/issue_tmp
+git clone https://github.com/Oliviaiii/issue_tmp.git /tmp/issue_tmp
 cp -r /tmp/issue_tmp/.github ./        # 複製整個 .github 資料夾
 
 git add .github
@@ -67,7 +67,7 @@ git push
 Windows PowerShell：
 
 ```powershell
-git clone https://github.com/oliviaiii1224/issue_tmp.git $env:TEMP\issue_tmp
+git clone https://github.com/Oliviaiii/issue_tmp.git $env:TEMP\issue_tmp
 Copy-Item -Recurse $env:TEMP\issue_tmp\.github .\
 git add .github
 git commit -m "chore: 套用 issue/PR 模板"

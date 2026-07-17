@@ -60,7 +60,7 @@ body:                     # ← 表單內容，由一連串「元件」組成
 | `body` | ✅ | 表單內容（見第三節） | 一連串元件 |
 | `title` | ❌ | 建立 issue 時**預設帶入的標題** | `"[Bug] "` |
 | `labels` | ❌ | 預設帶入的 label（陣列） | `["錯誤回報"]` |
-| `assignees` | ❌ | 預設指派的人（陣列，須為協作者） | `["oliviaiii1224"]` |
+| `assignees` | ❌ | 預設指派的人（陣列，須為協作者） | `["Oliviaiii"]` |
 | `projects` | ❌ | 自動加入的 Project（`組織/數字`） | `["dgfactor/3"]` |
 | `type` | ❌ | 預設的 **Issue Type**（**僅組織 repo 支援**，個人 repo 無效；**非** label） | `"Bug"` |
 
