@@ -1,7 +1,9 @@
 # GitHub Projects 自動化(Workflow)設定教學
 
 > 這是 GitHub Projects 系列的延伸篇,專門講**自動化**。
-> 前一篇《GitHub Projects 完整教學》帶你認識視圖與欄位;這篇聚焦在「怎麼讓 Project 自己動」——項目加進來自動設狀態、issue 關閉自動標 Done、符合條件的 issue 自動匯入等等,讓你少做重複的手動操作。
+> 前一篇[《GitHub Projects 完整教學》](github-projects-教學.md)帶你認識視圖與欄位;這篇聚焦在「怎麼讓 Project 自己動」——項目加進來自動設狀態、issue 關閉自動標 Done、符合條件的 issue 自動匯入等等,讓你少做重複的手動操作。
+>
+> 最後驗證日期：2026-07-17。可搭配公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)** 操作。
 
 ---
 

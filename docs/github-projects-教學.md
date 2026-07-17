@@ -3,7 +3,9 @@
 > 本文介紹的是新版 **Projects(ProjectsV2)**,而非舊版 Projects Classic。
 > Projects 是一個「可跨 repo 的規劃工具」,把 **Issue / Pull Request** 整合在一起,用來做 backlog 管理、衝刺規劃(sprint)、產品藍圖等。可在「使用者層級(個人)」或「組織層級(團隊)」建立。
 
-> 📷 本文所有截圖皆來自實際操作:以 `issue_tmp` repo 的 issues 建立的範例專案 **「Penance Manager 範例」**,你可以跟著每一步操作一次。
+> 📷 本文所有截圖皆來自實際操作:以 `issue_tmp` repo 的 issues 建立的公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)**,你可以跟著每一步操作一次。
+>
+> 最後驗證日期：2026-07-17。GitHub Projects 介面更新頻繁，若畫面位置不同，請以功能名稱與官方文件為準。
 
 這份教學把官方文件與實務細節整理在一起,適合第一次接觸 Projects 的人從頭讀:
 
@@ -422,7 +424,7 @@ jobs:
 從 Project 右上 **⋯ → Settings** 進入,可改名稱、預設 repo、簡介與 README;改名、Close、Delete、調整可見性都在這裡:
 
 ![Project settings](img/09-project-settings.png)
-*Project settings:這裡把專案改名為「Penance Manager 範例」;Custom fields 也列在左側*
+*Project settings:這裡把專案命名為「Penance Manager｜GitHub 專案管理繁中範例」;Custom fields 也列在左側*
 
 | 設定 | 說明 |
 | :--- | :--- |

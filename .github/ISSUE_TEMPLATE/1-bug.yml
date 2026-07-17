@@ -1,66 +1,100 @@
-name: "🐛 Bug Report / 錯誤回報"
+name: "🐛 錯誤回報"
 description: "回報系統異常、錯誤或不符合預期的行為"
-title: "[Bug] "
-labels: ["錯誤回報"]
+title: "[錯誤] "
+labels: ["錯誤回報", "待確認"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## 🐛 Bug Report / 錯誤回報
-        請盡量提供「可重現」的資訊，方便快速定位問題。
+        感謝你協助回報問題。完整的環境、重現步驟與實際結果，可以大幅縮短確認時間。
+
+  - type: checkboxes
+    id: duplicate_check
+    attributes:
+      label: "送出前確認"
+      options:
+        - label: "我已搜尋現有 Issues，確認沒有相同問題"
+          required: true
 
   - type: textarea
     id: summary
     attributes:
-      label: "📌 問題描述"
-      description: "簡短說明你遇到的問題是什麼"
-      placeholder: "例如：登入後跳回首頁，且顯示未授權"
+      label: "問題描述"
+      description: "簡短說明發生了什麼，以及造成的影響"
+      placeholder: "例如：登入成功後仍被導回登入頁，使用者無法進入後台。"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: "發生環境"
+      options:
+        - "正式環境"
+        - "測試環境"
+        - "本機環境"
+        - "不確定"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: "影響程度"
+      options:
+        - "阻斷核心流程"
+        - "主要功能受影響，但有替代方式"
+        - "局部功能異常"
+        - "輕微問題或顯示錯誤"
     validations:
       required: true
 
   - type: textarea
     id: steps
     attributes:
-      label: "🔁 重現步驟"
-      description: "請提供可以重現問題的操作流程"
-      placeholder: |
-        1. 前往 ...
-        2. 點擊 ...
-        3. 輸入 ...
-        4. 發生錯誤
+      label: "重現步驟"
+      description: "請列出能穩定重現問題的操作順序；若無法穩定重現，也請說明發生頻率"
+      value: |
+        1. 前往……
+        2. 點擊……
+        3. 輸入……
+        4. 發生問題
     validations:
-      required: false
+      required: true
 
   - type: textarea
     id: expected_vs_actual
     attributes:
-      label: "✅ 預期結果 vs ❌ 實際結果"
-      description: "你原本以為會發生什麼？實際上發生了什麼？"
+      label: "預期結果與實際結果"
       value: |
         **預期結果：**
-        （應該看到什麼/做到什麼）
 
         **實際結果：**
-        （實際看到什麼/報什麼錯）
     validations:
-      required: false
+      required: true
 
+  - type: textarea
+    id: environment_details
+    attributes:
+      label: "環境資訊"
+      description: "裝置、作業系統、瀏覽器、App 或系統版本"
+      value: |
+        - 裝置：
+        - 作業系統：
+        - 瀏覽器／版本：
+        - App／系統版本：
 
   - type: textarea
     id: logs
     attributes:
-      label: "🧾 錯誤訊息 / Console / Log（選填）"
-      description: "貼上錯誤訊息、console log 或 API 回應"
-      placeholder: "可貼文字或截圖"
-    validations:
-      required: false
+      label: "錯誤訊息或紀錄"
+      description: "請先移除帳號、Token、Cookie、個人資料等敏感資訊"
+      render: shell
 
-  - type: textarea
+  - type: upload
     id: attachments
     attributes:
-      label: "🖼️ 截圖 / 錄影（選填）"
-      description: "有畫面或操作錄影更好"
-      placeholder: "拖拉圖片上來或貼連結"
+      label: "截圖或錄影"
+      description: "可上傳截圖、錄影或其他有助於判斷問題的檔案"
     validations:
       required: false
-

@@ -1,53 +1,48 @@
-name: "❓ Support / Question（支援/提問）"
-description: "非 bug/需求的提問、卡關求救、使用支援"
-title: "[Question] "
-labels: ["提問"]
+name: "❓ 支援與提問"
+description: "提出非錯誤、非功能需求的使用問題或操作疑問"
+title: "[提問] "
+labels: ["提問", "待確認"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## ❓ Support / Question
-        不是你笨，是問題太會躲。把你看到的都寫出來，我們一起抓它。
+        若問題適合開放討論、沒有明確完成條件，也可以改到 Discussions 提問。
 
   - type: textarea
     id: question
     attributes:
-      label: "📌 問題 / 想問的事"
-      description: "請清楚描述你卡在哪裡"
-      placeholder: "例如：為什麼 staging 的 GA 匯入會少一欄？"
+      label: "問題"
+      description: "請清楚描述卡住的位置與想得到的答案"
     validations:
       required: true
 
   - type: textarea
     id: context
     attributes:
-      label: "🧩 背景 / 你在做什麼"
-      description: "提供情境，方便理解"
+      label: "背景與目標"
       value: |
-        - 我在做：
-        - 目標是：
+        **我正在做：**
+
+        **我希望達成：**
     validations:
-      required: false
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: "使用環境"
+      description: "系統、版本、瀏覽器或相關工具"
 
   - type: textarea
     id: tried
     attributes:
-      label: "🔁 已嘗試過的方式"
-      description: "讓別人不要重複你走過的冤枉路"
-      value: |
-        - 我試過：
-        - 結果：
-    validations:
-      required: false
+      label: "已嘗試的方法"
+      description: "請列出已查過的文件、操作步驟與結果"
 
-  - type: textarea
+  - type: upload
     id: evidence
     attributes:
-      label: "🖼️ 相關截圖/Log/連結（選填）"
-      description: "有圖有真相，有 log 有方向"
-      placeholder: |
-        - 截圖 / 錄影：
-        - Console / API log：
-        - 相關連結：
+      label: "截圖、紀錄或參考檔案"
+      description: "上傳前請移除帳號、Token、Cookie 與個人資料"
     validations:
       required: false

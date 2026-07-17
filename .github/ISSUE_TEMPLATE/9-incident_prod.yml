@@ -1,99 +1,98 @@
-name: "🚨 Incident / Production Issue（線上事故）"
-description: "追蹤線上事故、重大異常或服務退化"
-title: "[Incident][P1][XXX-1234]"
-labels: ["線上事故"]
+name: "🚨 線上事故"
+description: "追蹤正式環境重大異常、服務退化與緊急處置"
+title: "[線上事故][P1] "
+labels: ["線上事故", "待確認"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## 🚨 Incident / Production Issue
-        用於 production/staging 重大事故追蹤。請盡量提供時間點與影響範圍。
+        若事故仍在發生，請先依團隊緊急通報流程處理，再補齊這張 Issue。
 
   - type: dropdown
     id: severity
     attributes:
-      label: "🔥 嚴重度"
-      description: "大概是哪一級？"
+      label: "嚴重度"
       options:
-        - "P0 - 全站/核心服務不可用"
-        - "P1 - 主要功能受影響"
-        - "P2 - 部分功能退化/體驗問題"
-        - "P3 - 輕微異常"
+        - "P0－全站或核心服務不可用"
+        - "P1－主要功能受影響"
+        - "P2－部分功能退化或體驗明顯受影響"
+        - "P3－輕微異常"
     validations:
       required: true
 
   - type: textarea
     id: impact
     attributes:
-      label: "🎯 影響範圍"
-      description: "誰受影響？影響多大？"
-      placeholder: |
-        - 影響功能/區域：
-        - 受影響用戶/比例：
+      label: "影響範圍"
+      value: |
+        - 受影響功能／區域：
+        - 受影響使用者／比例：
         - 業務影響：
+    validations:
+      required: true
+
+  - type: input
+    id: incident_owner
+    attributes:
+      label: "事故負責人"
+      description: "填寫目前負責協調處置的人員"
     validations:
       required: true
 
   - type: input
     id: start_time
     attributes:
-      label: "⏰ 發生時間（開始）"
-      description: "請填可確定的時間點"
-      placeholder: "例如：2025-12-03 10:20 (UTC+8)"
+      label: "開始時間"
+      placeholder: "例如：2026-07-17 10:20（UTC+8）"
     validations:
       required: true
 
   - type: input
     id: end_time
     attributes:
-      label: "⏰ 發生時間（結束/仍在發生）"
-      description: "若未結束可填 'ongoing'"
-      placeholder: "例如：ongoing / 2025-12-03 11:05"
+      label: "結束時間或目前狀態"
+      placeholder: "例如：仍在發生／2026-07-17 11:05（UTC+8）"
     validations:
       required: true
 
   - type: textarea
-    id: detection
+    id: timeline
     attributes:
-      label: "🔍 如何發現 / 指標"
-      description: "告警、監控、使用者回報？"
-      placeholder: |
-        - 來源（alert/客服/內部發現）：
-        - 指標/截圖：
+      label: "事件時間線"
+      value: |
+        - 10:20 發現異常：
+        - 10:30 採取措施：
+        - 11:05 服務恢復：
     validations:
-      required: false
+      required: true
 
   - type: textarea
     id: mitigation
     attributes:
-      label: "🧯 緊急處置 / 暫解"
-      description: "目前做了什麼處理？"
-      placeholder: |
-        - 已採取措施：
-        - 暫時 workaround：
+      label: "緊急處置與目前狀態"
+      value: |
+        **已採取措施：**
+
+        **目前狀態：**
+
+        **暫時替代方式：**
     validations:
       required: true
 
   - type: textarea
-    id: next_steps
+    id: follow_up
     attributes:
-      label: "✅ 後續行動（選填）"
-      description: "需要開 RCA/Postmortem 的話可列待辦"
-      placeholder: |
-        - [ ] 找 root cause
-        - [ ] 補監控/告警
-        - [ ] 修復與回歸測試
-    validations:
-      required: false
+      label: "後續行動"
+      value: |
+        - [ ] 確認根本原因
+        - [ ] 完成永久修復
+        - [ ] 補充監控或告警
+        - [ ] 完成事故檢討文件
 
-  - type: textarea
-    id: logs
+  - type: upload
+    id: evidence
     attributes:
-      label: "🧾 Log / 相關連結（選填）"
-      description: "PR、error log、dashboard 連結等"
-      placeholder: |
-        - Log：
-        - Dashboard：
-        - 相關 PR/issue：
+      label: "監控畫面、錯誤紀錄或其他附件"
+      description: "上傳前請移除帳號、Token、Cookie 與個人資料"
     validations:
       required: false

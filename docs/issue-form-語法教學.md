@@ -1,7 +1,9 @@
 # GitHub Issue Form 語法教學
 
 這份文件教你怎麼撰寫 **GitHub Issue 表單**（YAML 格式，副檔名 `.yml`，放在 `.github/ISSUE_TEMPLATE/` 底下）。
-內容包含：頂層欄位、`body` 的 5 種元件、速查表，以及一份**包含全部元件的完整範例**可直接複製。
+內容包含：頂層欄位、`body` 的 6 種元件、速查表，以及一份**包含全部元件的完整範例**可直接複製。
+
+> 最後驗證日期：2026-07-17。Issue Forms 目前仍屬公開預覽功能，GitHub 可能調整欄位與驗證規則。
 
 > 💡 本 repo 的 9 份模板都是用這套語法寫的，可搭配 [`.github/ISSUE_TEMPLATE/`](../.github/ISSUE_TEMPLATE/) 對照閱讀。
 
@@ -11,14 +13,15 @@
 
 - [一、整體結構](#一整體結構)
 - [二、頂層欄位](#二頂層欄位)
-- [三、body 的 5 種元件](#三body-的-5-種元件)
+- [三、body 的 6 種元件](#三body-的-6-種元件)
   - [1. markdown — 純說明文字](#1-markdown--純說明文字)
   - [2. input — 單行輸入](#2-input--單行輸入)
   - [3. textarea — 多行輸入](#3-textarea--多行輸入)
   - [4. dropdown — 下拉選單](#4-dropdown--下拉選單)
   - [5. checkboxes — 核取方塊](#5-checkboxes--核取方塊)
+  - [6. upload — 檔案上傳](#6-upload--檔案上傳)
 - [四、速查表](#四速查表)
-- [五、完整範例（含全部 5 種元件）](#五完整範例含全部-5-種元件)
+- [五、完整範例（含全部 6 種元件）](#五完整範例含全部-6-種元件)
 - [六、常見地雷](#六常見地雷)
 
 ---
@@ -30,7 +33,7 @@
 ```yaml
 name: "模板標題"          # ← 頂層欄位（選單上看到的）
 description: "模板描述"
-title: "[Bug] "
+title: "[錯誤] "
 labels: ["錯誤回報"]
 body:                     # ← 表單內容，由一連串「元件」組成
   - type: markdown
@@ -55,16 +58,18 @@ body:                     # ← 表單內容，由一連串「元件」組成
 
 | 欄位 | 必填 | 說明 | 範例 |
 | --- | --- | --- | --- |
-| `name` | ✅ | 「Create new issue」選單上看到的**模板標題** | `"🐛 Bug Report / 錯誤回報"` |
+| `name` | ✅ | 「Create new issue」選單上看到的**模板標題** | `"🐛 錯誤回報"` |
 | `description` | ✅ | 選單上的**模板描述** | `"回報系統異常..."` |
 | `body` | ✅ | 表單內容（見第三節） | 一連串元件 |
-| `title` | ❌ | 建立 issue 時**預設帶入的標題** | `"[Bug] "` |
+| `title` | ❌ | 建立 issue 時**預設帶入的標題** | `"[錯誤] "` |
 | `labels` | ❌ | 預設帶入的 label（陣列） | `["錯誤回報"]` |
 | `assignees` | ❌ | 預設指派的人（陣列，須為協作者） | `["Oliviaiii"]` |
 | `projects` | ❌ | 自動加入的 Project（`組織/數字`） | `["dgfactor/3"]` |
 | `type` | ❌ | 預設的 **Issue Type**（**僅組織 repo 支援**，個人 repo 無效；**非** label） | `"Bug"` |
 
 > ⚠️ `labels` / `assignees` / `type` 填的內容必須**事先在 repo / org 建立好**，否則送出時會被直接略過、不會自動建立。
+
+> ⚠️ `projects` 只有在開票者對指定 Project 具有寫入權限時才會自動加入。公開 repository 通常應改用 Project 的 **Auto-add Workflow**，避免外部回報者沒有權限而加入失敗。
 
 > 🏢 **`type`（Issue Type）只有「組織」帳號的 repo 才有。** 它在組織 Settings → Planning → **Issue types** 統一定義（預設 `Bug` / `Feature` / `Task`），該組織底下所有 repo 共用。**個人帳號（personal account）的 repo 不支援 Issue Types**，模板裡寫了 `type:` 會被直接忽略（不報錯、也沒效果）。給個人 repo 用的模板，分類請改用 `labels`。
 
@@ -79,12 +84,12 @@ body:                     # ← 表單內容，由一連串「元件」組成
 
 ---
 
-## 三、body 的 5 種元件
+## 三、body 的 6 種元件
 
 每個元件的共同骨架：
 
 ```yaml
-- type: <類型>          # 必填：markdown / input / textarea / dropdown / checkboxes
+- type: <類型>          # 必填：markdown / input / textarea / dropdown / checkboxes / upload
   id: <唯一識別碼>       # 選填：給欄位一個 id（自動化 / API 可引用）
   attributes:            # 必填（markdown 以外）：這個元件的設定
     ...
@@ -92,7 +97,7 @@ body:                     # ← 表單內容，由一連串「元件」組成
     required: true
 ```
 
-> ⚠️ **`validations.required` 只在「公開（public）repo」有效。** 這是 GitHub 官方限制：私人（private）repo 即使設了 `required: true`，使用者**留空仍可送出**、不會被擋。私人 repo 想要必填效果，只能在 `label` / `description` 用文字提醒。
+> ⚠️ Issue Forms 仍是公開預覽功能。請以 GitHub 官方文件與實際表單預覽結果為準，不要依賴過時的 repository 可見性限制說明。
 
 ---
 
@@ -242,6 +247,29 @@ value: |
 
 ---
 
+### 6. upload — 檔案上傳
+
+提供獨立的檔案上傳區，適合收集截圖、錄影、紀錄檔或設計稿。說明文字應提醒使用者先移除 Token、Cookie、帳號與個人資料。
+
+```yaml
+- type: upload
+  id: attachments
+  attributes:
+    label: "截圖或其他附件"
+    description: "上傳前請先移除敏感資訊"
+  validations:
+    required: false
+```
+
+| attribute | 必填 | 說明 |
+| --- | --- | --- |
+| `label` | ✅ | 上傳區標題 |
+| `description` | ❌ | 檔案用途與隱私提醒 |
+
+`validations`：`required: true/false`
+
+---
+
 ## 四、速查表
 
 ```
@@ -259,23 +287,23 @@ body 元件：
 │             │ multiple / default                        │                     │
 │ checkboxes  │ label* / description / options*           │ 寫在 option 內的     │
 │             │ （每項：label* / required）               │ required            │
+│ upload      │ label* / description                      │ required            │
 └─────────────┴───────────────────────────────────────────┴─────────────────────┘
   * = 必填        id = markdown 以外皆可加（選填）
-  注意：validations.required 只在「公開 repo」有效（私人 repo 設了也不會擋送出）
 ```
 
 ---
 
-## 五、完整範例（含全部 5 種元件）
+## 五、完整範例（含全部 6 種元件）
 
 把下面整段存成 `.github/ISSUE_TEMPLATE/00-demo.yml` 就能在 repo 看到實際效果。
-它示範了**全部 5 種元件**與常用屬性：
+它示範了**全部 6 種元件**與常用屬性：
 
 ```yaml
-name: "🧪 Demo / 元件教學範本"
-description: "示範 Issue Form 全部 5 種元件的寫法（教學用）"
-title: "[Demo] "
-labels: ["教學"]
+name: "🧪 元件教學範本"
+description: "示範 Issue Form 全部 6 種元件的寫法"
+title: "[教學] "
+labels: ["待確認"]
 # assignees: ["your-github-id"]   # 選填：預設指派的人（須為協作者）
 # type: "Task"                    # 選填：Issue Type（須先在 org 建立）
 body:
@@ -284,7 +312,7 @@ body:
     attributes:
       value: |
         ## 🧪 Demo 範本
-        這份表單示範 Issue Form 的 5 種元件，僅供教學參考。
+        這份表單示範 Issue Form 的 6 種元件，僅供教學參考。
 
   # 2️⃣ input：單行輸入（適合短答案）
   - type: input
@@ -364,6 +392,15 @@ body:
           required: false
         - label: "我願意協助測試修復結果"
           required: false
+
+  # 6️⃣ upload：檔案上傳
+  - type: upload
+    id: attachments
+    attributes:
+      label: "📎 截圖或其他附件"
+      description: "上傳前請先移除 Token、Cookie、帳號與個人資料"
+    validations:
+      required: false
 ```
 
 ---
@@ -372,8 +409,9 @@ body:
 
 | 狀況 | 原因 / 解法 |
 | --- | --- |
-| 套用標籤沒生效 | 標籤必須**先在 repo 建立**，否則送出時被略過。見 [README 的建立標籤章節](../README.md#️-建立標籤labels) |
-| 私人 repo 必填擋不住 | `validations.required` **只在公開 repo 有效**，私人 repo 留空仍可送出 |
+| 套用標籤沒生效 | 標籤必須**先在 repo 建立**，否則送出時被略過。見 [README 的繁體中文 Labels 章節](../README.md#繁體中文-labels) |
+| 必填驗證與預期不同 | Issue Forms 仍屬公開預覽，請依目前官方文件與表單預覽實測，不要沿用舊版可見性限制說明 |
+| `projects` 沒有自動加入 | 開票者需要指定 Project 的寫入權限；公開回報流程建議改用 Auto-add Workflow |
 | `type` 設了沒效果 | Issue Types **只有組織 repo 支援**，個人 repo 會直接忽略 |
 | dropdown 選項放 `None` | `None` 是保留字，不能當選項文字，改成「無 / 不適用」等 |
 | checkboxes 必填沒作用 | 必填要寫在 **option 的 `required`**，不是外層 `validations` |

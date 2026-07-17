@@ -1,72 +1,55 @@
-name: "✨ Feature Change / 功能修改"
-description: "提出既有功能的調整需求"
+name: "🔁 功能修改"
+description: "調整既有功能的行為、規則或流程"
 title: "[功能修改] "
-labels: ["功能修改"]
-
+labels: ["功能修改", "待確認"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## ✨ Feature Change / 功能修改
-        用於「既有功能的行為／流程／畫面調整」。
-
   - type: textarea
-    id: purpose
+    id: reason
     attributes:
-      label: "🎯 修改目的"
-      description: "簡述此次修改的目標與背景"
+      label: "修改原因"
+      description: "目前造成什麼問題？為什麼需要調整？"
     validations:
       required: true
 
   - type: textarea
-    id: tasks
+    id: current_behavior
     attributes:
-      label: "✅ 任務項目"
-      description: "待完成事項清單"
+      label: "目前行為"
+      description: "說明現有流程、規則或畫面如何運作"
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired_behavior
+    attributes:
+      label: "修改後行為"
+      description: "說明希望調整成什麼樣子"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "驗收條件"
       value: |
-        - [ ] 
-        - [ ] 
+        - [ ]
+        - [ ]
     validations:
-      required: false
+      required: true
 
   - type: textarea
-    id: feature_desc
+    id: impact
     attributes:
-      label: "📖 功能說明"
-      description: "說明功能運作方式與使用情境"
-    validations:
-      required: false
+      label: "影響範圍與相容性"
+      value: |
+        - 受影響角色／功能：
+        - API／資料結構影響：
+        - 舊資料或既有流程相容性：
 
-  - type: textarea
-    id: expected_output
+  - type: upload
+    id: references
     attributes:
-      label: "📤 預期輸出"
-      description: "說明修改後預期達成的結果"
-    validations:
-      required: false
-
-  - type: textarea
-    id: before_screenshot
-    attributes:
-      label: "🖼️ 原始畫面"
-      description: "附上相關截圖"
-      placeholder: "拖拉圖片上來或貼連結"
-    validations:
-      required: false
-
-  - type: textarea
-    id: after_screenshot
-    attributes:
-      label: "🆕 修改後畫面"
-      description: "附上相關截圖"
-      placeholder: "拖拉圖片上來或貼連結"
-    validations:
-      required: false
-
-  - type: textarea
-    id: notes
-    attributes:
-      label: "📝 備註"
-      description: "補充說明或相關連結"
+      label: "修改前後畫面或參考資料"
+      description: "可上傳現況截圖、預期畫面、流程圖或其他附件"
     validations:
       required: false

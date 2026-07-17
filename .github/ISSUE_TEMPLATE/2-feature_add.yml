@@ -1,45 +1,72 @@
-name: "✨ Feature Add / 功能新增"
-description: "提出全新功能需求與規格"
+name: "✨ 功能新增"
+description: "提出全新功能、流程或頁面需求"
 title: "[功能新增] "
-labels: ["功能新增"]
+labels: ["功能新增", "待確認"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## ✨ Feature Add / 功能新增
-        用於「新增全新功能 / 新流程 / 新頁面」。請填必要資訊，其餘視情況補充。
+        請先描述要解決的問題，再說明想做的功能。這能避免需求只剩下一個指定解法。
 
   - type: textarea
-    id: user_scenario
+    id: problem
     attributes:
-      label: "👤 使用情境 / 功能範圍"
-      description: "誰會用？在什麼情境下用？要完成什麼？要做哪些/不做哪些，避免需求膨脹"
-      placeholder: |
-        As a ___
-        I want to ___
-        So that ___
+      label: "問題與背景"
+      description: "目前遇到什麼問題？為什麼值得處理？"
     validations:
       required: true
 
   - type: textarea
-    id: tasks
+    id: user_scenario
     attributes:
-      label: "✅ 任務項目"
-      description: "待完成事項清單"
+      label: "目標使用者與使用情境"
       value: |
-        - [ ] 
-        - [ ] 
+        **身為：**
+        **我希望：**
+        **以便：**
     validations:
-      required: false
+      required: true
 
   - type: textarea
-    id: refs
+    id: scope
     attributes:
-      label: "🖼️ Mock / 參考資料（選填）"
-      description: "有 wireframe、流程圖、參考連結再貼"
+      label: "範圍"
       value: |
-        - Mock / Wireframe：
-        - 流程圖：
-        - 相關連結：
+        **本次要做：**
+        -
+
+        **本次不做：**
+        -
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "驗收條件"
+      description: "用可以確認對錯的條件描述完成標準"
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: success_metric
+    attributes:
+      label: "成功指標"
+      description: "上線後要用什麼數據或觀察判斷功能有效"
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "相依項目與風險"
+      description: "相關 Issue、服務、資料、時程或其他限制"
+
+  - type: upload
+    id: references
+    attributes:
+      label: "畫面或參考資料"
+      description: "可上傳流程圖、線框圖、設計稿截圖或其他參考檔案"
     validations:
       required: false

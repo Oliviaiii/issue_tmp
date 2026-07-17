@@ -1,68 +1,63 @@
-name: "🔍 研究/試作"
-description: "用於技術/需求不確定時的探索、PoC、估工前研究"
-title: "[Spike] "
-labels: ["技術調研"]
-
+name: "🔍 技術調研與試作"
+description: "在需求或技術方向不確定時進行研究、試作與可行性驗證"
+title: "[技術調研] "
+labels: ["技術調研", "待確認"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## 🔍  研究 / 試作 
-        用於「先研究再決定做不做/怎麼做」。請填必要資訊即可。
-
-
   - type: textarea
     id: objective
     attributes:
-      label: "🎯 研究目標 / 想釐清的問題"
-      description: "這次 spike 要回答哪些問題？"
-      placeholder: |
-        - 想釐清：
-        - 為什麼重要：
+      label: "要回答的問題"
+      description: "這次研究結束後，必須能回答哪些問題？"
+      value: |
+        -
+        -
     validations:
       required: true
 
   - type: textarea
     id: scope
     attributes:
-      label: "🧩 探索範圍（含不做項目）"
-      description: "研究哪些方向？哪些先不做？"
-      placeholder: |
-        - 會研究：
-        - 不研究（Out of scope）：
+      label: "研究範圍"
+      value: |
+        **會研究：**
+        -
+
+        **不研究：**
+        -
     validations:
-      required: false
+      required: true
+
+  - type: input
+    id: timebox
+    attributes:
+      label: "時間盒"
+      description: "限制研究投入時間，避免無限探索"
+      placeholder: "例如：2 個工作天"
+    validations:
+      required: true
 
   - type: textarea
     id: approach
     attributes:
-      label: "🔧 方法 / 可能方案（選填）"
-      description: "你預計怎麼研究？有哪些候選方案？"
-      placeholder: |
-        - 方法：
-        - 候選方案 A/B/C：
-    validations:
-      required: false
+      label: "研究方式與候選方案"
+      description: "預計查哪些資料、驗證哪些方案或製作什麼試作品"
 
   - type: textarea
     id: deliverables
     attributes:
-      label: "📦 產出物 / Done Definition"
-      description: "研究做到什麼程度算完成？"
-      placeholder: |
-        - 產出（文件/PoC/結論/估工）：
-        - 完成標準：
+      label: "產出物"
+      value: |
+        - [ ] 研究結論
+        - [ ] 候選方案比較
+        - [ ] 試作品或驗證紀錄
+        - [ ] 後續估工或建議
     validations:
       required: true
 
-
   - type: textarea
-    id: notes
+    id: decision
     attributes:
-      label: "📝 備註（選填）"
-      description: "相關連結、參考資料、風險等"
-      placeholder: |
-        - 參考連結：
-        - 其他補充：
+      label: "決策標準"
+      description: "什麼條件成立時選擇方案 A、方案 B，或決定暫不進行？"
     validations:
-      required: false
+      required: true

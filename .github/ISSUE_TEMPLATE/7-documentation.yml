@@ -1,13 +1,13 @@
-name: "📚 Documentation（文件需求/修正）"
-description: "新增、補齊或修正文件（README / Spec / API Doc / SOP 等）"
-title: "[Docs] "
-labels: ["文件需求/修正"]
+name: "📚 文件需求與修正"
+description: "新增、補齊或修正 README、規格、API 文件與 SOP"
+title: "[文件] "
+labels: ["文件需求/修正", "待確認"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## 📚 Documentation
-        用於文件新增/修正，避免口耳相傳到最後變都市傳說。
+        ## 文件需求與修正
+        請指出文件位置、讀者與缺漏內容，讓更新後的文件可以直接解決問題。
 
 
   - type: textarea
@@ -29,6 +29,15 @@ body:
       placeholder: |
         - 缺漏/錯誤點：
         - 造成的影響：
+    validations:
+      required: true
+
+  - type: input
+    id: audience
+    attributes:
+      label: "目標讀者"
+      description: "誰需要閱讀這份文件？"
+      placeholder: "例如：新進工程師、產品經理、外部 API 使用者"
     validations:
       required: true
 

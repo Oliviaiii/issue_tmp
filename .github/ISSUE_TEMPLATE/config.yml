@@ -1,13 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: "Discord 聊天室"
-    url: "https://discord.com/"
-    about: "有任何問題請在DC回報，我們會盡快回覆你！"
-
-  - name: "後台入口"
-    url: "https://XXXXXX/login"
-    about: "帳號密碼請找PM索取"
-
-  - name: "前台首頁"
-    url: "https://XXXXXXX.com/"
-    about: "帳號密碼請找PM索取"
+  - name: "問題討論與使用協助"
+    url: "https://github.com/Oliviaiii/issue_tmp/discussions"
+    about: "不確定該選哪一種表單，或想交流 GitHub Issue Forms 與 Projects 的使用方式，可先到討論區提問。"

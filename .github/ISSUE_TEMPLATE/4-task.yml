@@ -1,46 +1,40 @@
-name: "🛠️ Task / 任務追蹤"
-description: "用於追蹤明確可執行的任務或待辦"
-title: "[Task] "
-labels: ["任務追蹤"]
+name: "🛠️ 任務追蹤"
+description: "追蹤具體、可執行且可驗收的工作"
+title: "[任務] "
+labels: ["任務追蹤", "待確認"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## 🛠️ Task / 任務追蹤
-        用於追蹤具體任務（可拆項、可驗收）。
-
   - type: textarea
-    id: purpose
+    id: goal
     attributes:
-      label: "🎯 目的"
-      description: "為什麼要做這件事？希望帶來什麼改善？"
-      placeholder: |
-        例如：
-        - 提升資料匯入效率，避免同事手動操作出錯。
+      label: "任務目標"
+      description: "這項任務要解決什麼問題或產生什麼結果？"
     validations:
       required: true
 
   - type: textarea
     id: tasks
     attributes:
-      label: "✅ 任務項目"
-      description: "列出要完成的子任務（可用 checklist）"
+      label: "工作項目"
       value: |
-        - [ ] 任務 1
-        - [ ] 任務 2
-        - [ ] 任務 3
-        - [ ] 任務 4
+        - [ ]
+        - [ ]
     validations:
-      required: false
+      required: true
 
   - type: textarea
-    id: notes
+    id: done_definition
     attributes:
-      label: "📝 附註（選填）"
-      description: "補充說明、文件連結、截圖或注意事項"
+      label: "完成定義"
+      description: "列出可以判定任務完成的條件"
       value: |
-        - 相關連結：
-        - 注意事項：
-        - 其他補充：
+        - [ ] 已完成主要工作項目
+        - [ ] 已完成必要測試或人工驗證
+        - [ ] 已更新相關文件
     validations:
-      required: false
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "相依項目與注意事項"
+      description: "相關 Issue、Pull Request、服務、資料或時程限制"

@@ -1,48 +1,61 @@
-name: "🎨 Feature Request / 版型樣式調整"
-description: "提出版型、UI、樣式或視覺調整需求"
+name: "🎨 版型與樣式調整"
+description: "提出版型、介面、樣式或視覺調整需求"
 title: "[樣式調整] "
-labels: ["樣式調整"]
+labels: ["樣式調整", "待確認"]
 body:
-  - type: markdown
+  - type: input
+    id: page_path
     attributes:
-      value: |
-        ## 🎨 Feature Request / 版型樣式調整
-        用於提出 UI/版型/樣式調整需求，請填寫必要資訊即可。
-
-
-  - type: textarea
-    id: request_desc
-    attributes:
-      label: "🎯 需求說明"
-      description: "說明目前問題與希望調整的方向"
-      value: |
-        - 現況/問題：
-        - 希望調整方向：
-        - 參考依據（若有）：
+      label: "頁面或功能位置"
+      description: "請填網址、路由、頁面名稱或元件名稱"
+      placeholder: "例如：/systemSettings#section-order"
     validations:
       required: true
 
   - type: textarea
-    id: adjust_items
+    id: request_desc
     attributes:
-      label: "📋 調整項目"
-      description: "列出要調整的細項（可用 checklist）"
+      label: "現況與調整方向"
       value: |
-        - [ ] 調整項目 1
-        - [ ] 調整項目 2
-        - [ ] 調整項目 3
+        **現況／問題：**
+
+        **希望調整成：**
     validations:
-      required: false
+      required: true
+
+  - type: dropdown
+    id: target_devices
+    attributes:
+      label: "目標裝置"
+      multiple: true
+      options:
+        - "桌面版"
+        - "平板版"
+        - "手機版"
+        - "所有尺寸"
+    validations:
+      required: true
 
   - type: textarea
-    id: notes
+    id: states
     attributes:
-      label: "📝 備註（選填）"
-      description: "補充說明或相關連結/截圖"
+      label: "需要涵蓋的狀態"
+      description: "例如：預設、Hover、Loading、空資料、錯誤、停用與權限不足"
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "驗收條件"
       value: |
-        - 補充說明：
-        - 原始畫面/截圖：
-        - 修改後期望畫面/mock：
-        - 相關連結：
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: upload
+    id: references
+    attributes:
+      label: "原始畫面、設計稿或參考資料"
+      description: "可上傳修改前畫面、預期畫面與設計稿截圖"
     validations:
       required: false
