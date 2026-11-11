@@ -174,7 +174,7 @@ Iteration 是「週期 / 區間」欄位,專門用來規劃 sprint 或其他開�
 ### 1. Table(表格)
 
 ![Table 視圖](img/04-table-view.png)
-*Table 視圖:一列一個 item,可看到 Status 與自訂的 Priority 欄位*
+*「📊 全部工作」依優先順序分組，同時顯示 Status、旗標、模組與負責人等欄位*
 
 - **長什麼樣子**
   - 一列一個項目,欄位名稱是欄標頭,類似試算表,可一次看到所有欄位。
@@ -243,7 +243,7 @@ Roadmap 剛建立時是空的,因為它不知道要用哪個欄位來定位項�
 **3. 在時間軸上排程** —— 有了日期欄位後,把游標移到某列的時間軸區域會出現 **+**,點一下就在那天建立排程點;也可以直接**拖拉**長條兩端調整起訖、或整條左右拖移改期。另一個更精確的方式是**點開 item 詳情面板**,直接在 Start date / Target date 欄位用日曆挑日期(見下圖)。
 
 ![排好程的 Roadmap](img/18d-roadmap-scheduled.png)
-*排程後的 Roadmap:#5 有一段橫跨數日的長條(Start→Target),#4、#1 則是單日點*
+*「🗓️ 產品路線圖」使用開始日期與目標日期排出每個項目的時間範圍，並包含真正跨月的教學資料*
 
 > ⚠️ 若只填 Start date 沒填 Target date,項目在時間軸上會是單一個點;兩個日期都填才會畫成有長度的長條。Iteration 欄位也可當定位依據,適合用 sprint 週期來排。
 
@@ -277,7 +277,7 @@ Roadmap 剛建立時是空的,因為它不知道要用哪個欄位來定位項�
 在任一 view 上方的篩選列輸入查詢語法,即可只顯示符合的項目。
 
 ![篩選](img/17-filter.png)
-*在 Board 輸入 `is:issue status:"📌 開發就緒"` 後只剩可開始處理的 Issue；右上可 Save 存進視圖或 Discard 捨棄*
+*「🤖 AI Ready」使用 `status:"📌 開發就緒" 執行方式:"🤖 AI" 🤖-AI-認領:"⚪ 未認領"`，只顯示內容已收斂且尚未取票的 AI 任務*
 
 記住兩個規則就能組合出大部分查詢:
 
@@ -354,6 +354,8 @@ Projects 的自動化由淺到深有三層:內建工作流 → GitHub Actions �
 ![Item closed 工作流](img/20-workflow-item-closed.png)
 *「Item closed」工作流:當 issue/PR 關閉時,自動把 Status 設為「🎉 已完成」*
 
+公開範例目前啟用 6 個 Workflow：Auto-add sub-issues、Auto-add、Auto-close、Item closed、Pull request merged，以及 `Item added to project → 📥 待整理`。後者確保自動加入或手動加入的 Issue／PR 不會落在沒有 Status 的空白區。
+
 常用的有:
 
 | 工作流 | 作用 |
@@ -403,12 +405,21 @@ jobs:
 在 Project 右上角進入 **Insights**,用 Project 的項目當資料來源畫圖表。
 
 ![Insights](img/21-insights.png)
-*預設的 Burn up 圖:綠線是 Open、紫線是 Completed,可調整時間範圍與篩選*
+*「📦 各模組預估工時」以模組為 X 軸、加總預估工時，快速辨識量能集中在哪個領域*
+
+![各 Sprint 狀態分布](img/23-insights-sprint.png)
+*「🏃 各 Sprint 狀態分布」以迭代週期為 X 軸、依 Status 分組，可看每期工作目前停在哪個階段*
 
 ### 兩類圖表
 
 - **Current charts(當前)** —— 呈現目前狀態,例如各人負責幾項、各疊代有幾個 issue。
 - **Historical charts(歷史)** —— X 軸設為「Time」,呈現隨時間變化;預設的 **Burn up** 圖可看完成與剩餘工作的趨勢。
+
+公開範例可直接查看：
+
+- [Status chart](https://github.com/users/Oliviaiii/projects/1/insights/1)：各流程狀態的項目數。
+- [📦 各模組預估工時](https://github.com/users/Oliviaiii/projects/1/insights/2)：各模組工時加總。
+- [🏃 各 Sprint 狀態分布](https://github.com/users/Oliviaiii/projects/1/insights/3)：每個 Iteration 的狀態分布。
 
 ### 圖表設定
 
