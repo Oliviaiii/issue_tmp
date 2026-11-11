@@ -149,14 +149,26 @@ Status、Priority、Iteration 等流程資訊建議放在 GitHub Projects 欄位
 
 ## 公開 Projects 範例
 
-[Penance Manager｜GitHub 專案管理繁中範例](https://github.com/users/Oliviaiii/projects/1)示範：
+[Penance Manager｜GitHub 專案管理繁中完整範例](https://github.com/users/Oliviaiii/projects/1)示範：
 
 - Issue 與 Pull Request 如何成為 Project 項目
-- Status、Priority、Iteration、日期與估工欄位
-- Table、Board 與 Roadmap 如何共用同一份資料
-- 新項目、關閉、重新開啟與合併時的自動化流程
+- 7 階段 Status、Priority、Iteration、日期、估工、環境與驗收欄位
+- 9 個 Table、Board 與 Roadmap Views 如何共用同一份資料
+- Milestone、父子 Issue、Linked pull requests 與人工驗收如何串成完整流程
+- 新項目、關閉、重新開啟、合併與自動加入 Project 的 Workflow
+- `AI Ready` 任務佇列與 AI 認領欄位的安全示意（不會自動執行）
+
+### 跟著公開資料看一次完整流程
+
+1. 從 [AI 任務範例 #8](https://github.com/Oliviaiii/issue_tmp/issues/8)觀察「開發就緒但尚未認領」。
+2. 從[每週摘要父議題 #11](https://github.com/Oliviaiii/issue_tmp/issues/11)展開 [#12](https://github.com/Oliviaiii/issue_tmp/issues/12) 與 [#13](https://github.com/Oliviaiii/issue_tmp/issues/13)兩張子議題。
+3. 從[文件任務 #6](https://github.com/Oliviaiii/issue_tmp/issues/6)查看關聯 Pull Request、驗證結果與合併後的自動結案。
+4. 到 [`v1.0 教學範例` Milestone](https://github.com/Oliviaiii/issue_tmp/milestone/1)查看版本範圍與完成比例。
+5. 回到 [Project 工作流程看板](https://github.com/users/Oliviaiii/projects/1/views/1)確認狀態、驗證與發布資訊。
 
 Project 是個人或組織層級的資源，不會隨 Template Repository 一起複製。需要相同 Project 結構時，請使用 Project 選單中的 **Make a copy**。
+
+> Project 複製後仍要重新檢查預設 Repository、Auto-add 條件、協作者權限與 Repository Rules；這些設定可能依擁有者與權限而不同。
 
 ## 客製化提醒
 

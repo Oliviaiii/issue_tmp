@@ -1,9 +1,9 @@
 # GitHub Projects 自動化(Workflow)設定教學
 
 > 這是 GitHub Projects 系列的延伸篇,專門講**自動化**。
-> 前一篇[《GitHub Projects 完整教學》](github-projects-教學.md)帶你認識視圖與欄位;這篇聚焦在「怎麼讓 Project 自己動」——項目加進來自動設狀態、issue 關閉自動標 Done、符合條件的 issue 自動匯入等等,讓你少做重複的手動操作。
+> 前一篇[《GitHub Projects 完整教學》](github-projects-教學.md)帶你認識視圖與欄位;這篇聚焦在「怎麼讓 Project 自己動」——項目加進來自動進入「📥 待整理」、issue 關閉自動標「🎉 已完成」、符合條件的 issue 自動匯入等等,讓你少做重複的手動操作。
 >
-> 最後驗證日期：2026-11-11。可搭配公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)** 操作。
+> 最後驗證日期：2026-11-11。可搭配公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中完整範例」](https://github.com/users/Oliviaiii/projects/1)** 操作。
 
 ---
 
@@ -32,7 +32,7 @@ GitHub Projects 的自動化由淺到深分三層,絕大多數人只要用到第
 - **右上角**:`On / Off` 開關,以及 `Edit` 按鈕(進入編輯模式才能改設定;沒按 Edit 時是唯讀的 Viewing mode)。
 
 > 💡 記住這個心智模型:**每個工作流 = 一個「當…就…」的規則**。
-> 例如「**當**一個項目被關閉,**就**把它的 Status 設成 Done」。
+> 例如「**當**一個項目被關閉,**就**把它的 Status 設成『🎉 已完成』」。
 
 ---
 
@@ -42,20 +42,20 @@ GitHub Projects 的自動化由淺到深分三層,絕大多數人只要用到第
 
 | 工作流 | 觸發條件(When) | 預設動作(Set / Do) | 預設是否啟用 |
 | :--- | :--- | :--- | :---: |
-| **Item added to project** | 項目被加進 Project 時 | 設定欄位(常設 Status → Todo) | 可啟用 |
-| **Item closed** | issue / PR 被關閉時 | Status → **Done** | ✅ 預設開 |
-| **Item reopened** | 項目重新開啟時 | 設定 Status(例如 → Todo / In Progress) | 可啟用 |
-| **Pull request merged** | PR 被合併時 | Status → **Done** | ✅ 預設開 |
-| **Code changes requested** | PR 被要求修改時 | 設定 Status(例如 → In Progress) | 可啟用 |
-| **Code review approved** | PR 通過審查時 | 設定 Status(例如 → In Review / Ready) | 可啟用 |
+| **Item added to project** | 項目被加進 Project 時 | 本範例：Status → 📥 待整理 | 可啟用 |
+| **Item closed** | issue / PR 被關閉時 | 本範例：Status → **🎉 已完成** | ✅ 預設開 |
+| **Item reopened** | 項目重新開啟時 | 本範例可設 → 📥 待整理 / 🔨 進行中 | 可啟用 |
+| **Pull request merged** | PR 被合併時 | 本範例：Status → **🎉 已完成** | ✅ 預設開 |
+| **Code changes requested** | PR 被要求修改時 | 本範例可設 → 🔨 進行中 | 可啟用 |
+| **Code review approved** | PR 通過審查時 | 本範例可設 → 👀 人工驗收 / 🚀 待發布 | 可啟用 |
 | **Auto-add to project** | repo 中符合篩選條件的 issue/PR 出現時 | 自動把它加入 Project | 需設定 |
 | **Auto-archive items** | 項目符合篩選條件時 | 自動封存(archive) | 需設定 |
 | **Auto-add sub-issues to project** | 某項目有子議題(sub-issues)時 | 把子議題一起加入 Project | 可啟用 |
 | **Auto-close issue** | 項目的 Status 被設為指定值時 | 自動關閉該 issue | 可啟用 |
 
 > ⚙️ **Project 剛建立時,預設就啟用兩個工作流:**
-> 1. issue / PR 關閉 → Status 設為 **Done**
-> 2. PR 合併 → Status 設為 **Done**
+> 1. issue / PR 關閉 → Status 設為 **🎉 已完成**
+> 2. PR 合併 → Status 設為 **🎉 已完成**
 >
 > 其他工作流預設是關的,要用得自己開、自己設。
 
@@ -63,25 +63,25 @@ GitHub Projects 的自動化由淺到深分三層,絕大多數人只要用到第
 
 #### 1. Item added to project(項目加入時設狀態)
 
-最實用的入門自動化。打開它、設定動作為 `Set Status: Todo`,之後**任何新加進 Project 的項目都會自動帶上 Todo**,不用每次手動點。
+最實用的入門自動化。打開它、設定動作為 `Set Status: 📥 待整理`,之後**任何新加進 Project 的項目都會自動帶上待整理**,不用每次手動點。
 
-搭配看板用特別順:新項目一進來就落在 Todo 欄,流程一目了然。
+搭配看板用特別順:新項目一進來就落在「📥 待整理」欄,流程一目了然。
 
-#### 2. Item closed / Pull request merged(完成時自動 Done)
+#### 2. Item closed / Pull request merged(完成時自動「已完成」)
 
-這兩個預設就開好了,動作都是 `Set Status: Done`。意思是:
+這兩個預設就開好了,公開範例把動作設為 `Set Status: 🎉 已完成`。意思是:
 
-- 你在 GitHub 上把 issue 關掉 → Project 裡它自動變 Done
-- PR 被 merge → 對應項目自動變 Done
+- 你在 GitHub 上把 issue 關掉 → Project 裡它自動變「🎉 已完成」
+- PR 被 merge → 對應項目自動變「🎉 已完成」
 
-**反過來的情境**用 **Item reopened**:重新開啟的項目自動拉回 Todo 或 In Progress,避免「明明又要做了卻還掛在 Done」。
+**反過來的情境**用 **Item reopened**:重新開啟的項目自動拉回「📥 待整理」或「🔨 進行中」,避免「明明又要做了卻還掛在已完成」。
 
 #### 3. Code changes requested / Code review approved(依審查結果流轉)
 
 如果你的團隊有走 PR review,可以讓狀態跟著審查結果自動跑:
 
-- 被 reviewer 要求修改 → 自動回到 `In Progress`
-- 通過審查 → 自動進 `In Review` 或 `Ready to merge`
+- 被 reviewer 要求修改 → 自動回到 `🔨 進行中`
+- 通過審查 → 自動進 `👀 人工驗收` 或 `🚀 待發布`
 
 這樣看板上的 PR 卡片會自己跟著 review 狀態移動。
 
@@ -124,7 +124,7 @@ GitHub Projects 的自動化由淺到深分三層,絕大多數人只要用到第
 
 #### 7. Auto-close issue(狀態到位就自動關)
 
-反向操作:當你把某項目的 Status 設成指定值(例如 Done),自動把對應的 issue 關閉。讓「Project 標完成」和「GitHub issue 關閉」兩邊同步,不用兩頭手動。
+反向操作:當你把某項目的 Status 設成指定值(例如「🎉 已完成」),自動把對應的 issue 關閉。讓「Project 標完成」和「GitHub issue 關閉」兩邊同步,不用兩頭手動。
 
 ---
 
@@ -139,7 +139,7 @@ GitHub Projects 的自動化由淺到深分三層,絕大多數人只要用到第
 5. 右上 `On / Off` 切到 **On**,或按 `Save and turn on workflow`
 6. 回清單確認該工作流前面的圓點變成**實心綠點**
 
-> 💡 改完不確定有沒有生效?隨便關一個測試用 issue,看看 Project 裡狀態有沒有自動跳到 Done,就知道了。
+> 💡 改完不確定有沒有生效?關閉一張專用的測試 Issue,看看 Project 裡狀態有沒有自動跳到「🎉 已完成」,就知道了。正式 Issue 不要只為測試而關閉。
 
 ---
 
@@ -198,25 +198,25 @@ gh api graphql -f query='...'
 
 **配方 A|最小可用三件套(新手建議)**
 
-1. `Item added to project` → Status: **Todo**
-2. `Item closed` → Status: **Done**(預設已開)
-3. `Pull request merged` → Status: **Done**(預設已開)
+1. `Item added to project` → Status: **📥 待整理**
+2. `Item closed` → Status: **🎉 已完成**(預設已開)
+3. `Pull request merged` → Status: **🎉 已完成**(預設已開)
 
-效果:新項目自動進 Todo、做完自動 Done,幾乎不用手動改狀態。
+效果:新項目自動進待整理、做完自動已完成,幾乎不用手動改狀態。
 
 **配方 B|Bug 追蹤線**
 
 1. `Auto-add to project`,篩選 `is:issue label:bug`
-2. `Item added to project` → Status: **Todo**
-3. `Item closed` → Status: **Done**
+2. `Item added to project` → Status: **📥 待整理**
+3. `Item closed` → Status: **🎉 已完成**
 
-效果:任何貼上 `bug` 的 issue 自動進專案並排進 Todo。
+效果:任何貼上 `bug` 的 issue 自動進專案並排進待整理。
 
 **配方 C|完整 PR review 流**
 
-1. `Code changes requested` → Status: **In Progress**
-2. `Code review approved` → Status: **In Review**
-3. `Pull request merged` → Status: **Done**
+1. `Code changes requested` → Status: **🔨 進行中**
+2. `Code review approved` → Status: **👀 人工驗收**
+3. `Pull request merged` → Status: **🎉 已完成**
 
 效果:PR 卡片跟著 review 狀態在看板上自己移動。
 
@@ -231,39 +231,39 @@ gh api graphql -f query='...'
 
 ## 八、從 Project 交付任務給 AI Agent
 
-GitHub 的 Built-in workflows 可以把 Issue 加進 Project、設定 Status、關閉或封存項目，但**不會只因一張票進入 `Ready` 就自動讓 AI Agent 認領**。
+GitHub 的 Built-in workflows 可以把 Issue 加進 Project、設定 Status、關閉或封存項目，但**不會只因一張票進入 `📌 開發就緒` 就自動讓 AI Agent 認領**。
 
 ### 入門做法：人指派，Agent 開 PR
 
 1. 使用 [`10-ai_agent_task.yml`](../.github/ISSUE_TEMPLATE/10-ai_agent_task.yml) 寫清楚範圍、限制、驗收與人工關卡
-2. 將 Project 的 `Status` 設為 `Ready`，`Execution` 設為 `AI`
+2. 將 Project 的 `Status` 設為 `📌 開發就緒`，`執行方式` 設為 `🤖 AI`，`🤖 AI 認領` 設為 `⚪ 未認領`
 3. 人類把 Issue 指派給支援的 coding agent
 4. Agent 建 branch、修改檔案、執行測試並開 Pull Request
-5. Project 改成 `Human Review`
+5. Project 改成 `👀 人工驗收`
 6. 人類檢查 Diff、驗證證據與實際行為後，再決定 Merge、部署與結案
 
 ### 進階做法：排程 Agent 自動取票
 
 要讓 Agent 自動巡看板，需要另外用 GitHub MCP、`gh project item-list`、GraphQL API 或其他排程工具建立流程：
 
-1. 查詢 `status:Ready execution:AI`
-2. 選擇尚未指派、沒有 `Claimed by` 的項目
-3. 先寫入 Assignee／Claimed by／Started at，再開始工作
+1. 查詢 `status:"📌 開發就緒" 執行方式:"🤖 AI" 🤖-AI-認領:"⚪ 未認領"`
+2. 選擇尚未指派、`Agent／認領者` 為空的項目
+3. 先寫入 Assignee／Agent／認領時間，並把認領狀態改為「🟡 已認領」再開始工作
 4. 使用原子性更新、鎖定欄位或二次讀取，避免兩個 Agent 同時認領
-5. 成功時建立 PR 並改成 `Human Review`
+5. 成功時建立 PR、填入執行紀錄，並改成「🟢 已交付／👀 人工驗收」
 6. 失敗或逾時時保留錯誤證據、釋放認領狀態並通知人
 
-這一層還要處理權限、重試、逾時、取消、費用與 Prompt injection。建議先把人工指派流程跑穩，再逐步自動化。
+公開範例只示意這些欄位，不會啟動排程 Agent。真的自動化時還要處理權限、重試、逾時、取消、費用與 Prompt injection。建議先把人工指派流程跑穩，再逐步自動化。
 
 ---
 
 ## 九、常見問題與注意事項
 
-- **預設只開兩個**:新 Project 只預設啟用「關閉 → Done」「PR 合併 → Done」,其餘要自己開。
+- **預設只開兩個**:新 Project 只預設啟用「關閉 → 已完成」「PR 合併 → 已完成」,其餘要自己開。
 - **Auto-add 一 repo 一條**:跨多 repo 要分別設定多條 Auto-add。
 - **封存不進統計**:Auto-archive 封存的項目不會出現在 Insights 圖表。
 - **改了沒生效?** 確認該工作流圓點是**實心綠點**、而且你按了 `Save / On`,不是停在 Viewing mode。
-- **狀態選項要先存在**:工作流動作若要設成 `In Review` 之類的值,得先在 Status 欄位裡建好這個選項(到 Settings → Custom fields → Status 新增)。
+- **狀態選項要先存在**:工作流動作若要設成「👀 人工驗收」之類的值,得先在 Status 欄位裡建好這個選項(到 Settings → Custom fields → Status 新增)。
 - **權限**:要編輯工作流,需要該 Project 的 **Write 或 Admin** 權限。
 
 ---
@@ -273,9 +273,9 @@ GitHub 的 Built-in workflows 可以把 Issue 加進 Project、設定 Status、�
 設定完自動化後,照這份清單掃一遍:
 
 - [ ] 新項目加入會自動帶 Status 嗎?(Item added to project)
-- [ ] issue / PR 關閉、合併後會自動 Done 嗎?(預設兩個)
+- [ ] issue / PR 關閉、合併後會自動進「🎉 已完成」嗎?(預設兩個)
 - [ ] 需要自動匯入的 repo 都各設好 Auto-add 了嗎?
-- [ ] 動作用到的 Status 選項(Todo / In Progress / In Review / Done)都已建立?
+- [ ] 動作用到的 Status 選項(待整理 / 開發就緒 / 進行中 / 人工驗收 / 待發布 / 已完成)都已建立?
 - [ ] 要啟用的工作流前面都是實心綠點?
 - [ ] (進階)跨 repo 需求是否該改用 Actions 的 `add-to-project`?
 - [ ] AI 任務是否有範圍、禁止動作、驗收條件、證據與人工關卡?
