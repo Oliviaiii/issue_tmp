@@ -3,7 +3,7 @@
 > 本文介紹的是新版 **Projects(ProjectsV2)**,而非舊版 Projects Classic。
 > Projects 是一個「可跨 repo 的規劃工具」,把 **Issue / Pull Request** 整合在一起,用來做 backlog 管理、衝刺規劃(sprint)、產品藍圖等。可在「使用者層級(個人)」或「組織層級(團隊)」建立。
 
-> 📷 本文所有截圖皆來自實際操作:以 `issue_tmp` repo 的 issues 建立的公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)**,你可以跟著每一步操作一次。
+> 📷 本文所有截圖皆來自實際操作:以 `issue_tmp` repo 的 issues 建立的公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中完整範例」](https://github.com/users/Oliviaiii/projects/1)**,你可以跟著每一步操作一次。
 >
 > 最後驗證日期：2026-11-11。GitHub Projects 介面更新頻繁，若畫面位置不同，請以功能名稱與官方文件為準。
 
@@ -96,16 +96,16 @@ Views 就是 Table、Board、Roadmap 這三種版面。
 **怎麼修改某個 item 的 Status?** 最快的方式是在 Table 視圖直接點該列的 Status 儲存格,從下拉選單挑選;Board 視圖則是直接把卡片拖到別欄。
 
 ![修改 Status](img/07-status-dropdown.png)
-*在 Table 中點 Status 儲存格即可切換狀態(圖中可看到自訂的「In Review」選項)*
+*在 Table 中點 Status 儲存格即可切換狀態；公開範例使用「待整理、開發就緒、進行中、人工驗收、待發布、已完成、不處理」*
 
 **怎麼新增/修改 Status 的選項?** Status 本身是一個 single select 欄位,選項可自由增改:
 
 1. 進入 Project 右上 **⋯ → Settings**
 2. 左側 **Custom fields** 區點 **Status**
-3. 在 **Options** 區塊可拖拉排序、點 **⋯** 重新命名/改顏色/刪除,或在底部 **Add option...** 輸入新選項(例如 `In Review`)後按 **Add**
+3. 在 **Options** 區塊可拖拉排序、點 **⋯** 重新命名/改顏色/刪除,或在底部 **Add option...** 輸入新選項(例如 `👀 人工驗收`)後按 **Add**
 
 ![Status 欄位設定](img/08-status-field-settings.png)
-*Status field settings:這裡新增了「In Review」選項,新選項會立即出現在所有視圖*
+*Status field settings:新增「👀 人工驗收」後,新選項會立即出現在所有視圖*
 
 > **關於 Issue Type**
 >
@@ -191,18 +191,18 @@ Iteration 是「週期 / 區間」欄位,專門用來規劃 sprint 或其他開�
 ### 2. Board(看板 / Kanban)
 
 ![Board 視圖](img/15-board-view.png)
-*Board 視圖:依 Status 分欄(Todo / In Progress / Done / In Review)*
+*Board 視圖:依 Status 分成「待整理 → 開發就緒 → 進行中 → 人工驗收 → 待發布 → 已完成」*
 
 ![拖拉卡片](img/16-board-drag.png)
-*把卡片從 Todo 拖到 In Progress 後,該 item 的 Status 自動變更,欄頂計數同步更新*
+*把卡片從「待整理」拖到「開發就緒」後,該 item 的 Status 自動變更,欄頂計數同步更新*
 
 - **長什麼樣子**
   - 把項目排成一張張可拖拉的卡片,分在不同直欄裡。
 - **適合用在**
-  - 追蹤工作流動狀態(Todo → In Progress → Done)。
+  - 追蹤工作流動狀態(待整理 → 開發就緒 → 進行中 → 人工驗收 → 待發布 → 已完成)。
 - **核心功能與設定**
   - **Column field(直欄欄位)**:預設用 `Status` 當直欄,但可改用**任何 single select 或 iteration 欄位**。
-  - **拖拉即改值**:把卡片拖到別欄,該項目對應的欄位值會**自動跟著改**(例如拖到 Done,Status 就變 Done)。
+  - **拖拉即改值**:把卡片拖到別欄,該項目對應的欄位值會**自動跟著改**(例如拖到「已完成」,Status 就變成「🎉 已完成」)。
   - **Column limit(卡片數上限)**:可為單一直欄設上限,**僅作提示、不強制**,用來提醒某欄塞太多。
   - **水平分組(Group)**:除了直欄,還能再依另一個欄位做橫向分組。
   - **Field sum**:顯示在每個直欄頂端,方便看每欄負載。
@@ -277,7 +277,7 @@ Roadmap 剛建立時是空的,因為它不知道要用哪個欄位來定位項�
 在任一 view 上方的篩選列輸入查詢語法,即可只顯示符合的項目。
 
 ![篩選](img/17-filter.png)
-*在 Board 輸入 `is:issue status:Todo` 後只剩 Todo 欄;右上可 Save 存進視圖或 Discard 捨棄*
+*在 Board 輸入 `is:issue status:"📌 開發就緒"` 後只剩可開始處理的 Issue；右上可 Save 存進視圖或 Discard 捨棄*
 
 記住兩個規則就能組合出大部分查詢:
 
@@ -289,10 +289,10 @@ Roadmap 剛建立時是空的,因為它不知道要用哪個欄位來定位項�
 
 | 語法 | 作用 |
 | :--- | :--- |
-| `status:Todo` | 篩選單選欄位的值 |
+| `status:"📌 開發就緒"` | 篩選含空白或 emoji 的單選值 |
 | `label:bug,urgent` | 多值(逗號 = OR) |
 | `assignee:@me` | 指派給自己 |
-| `iteration:@current` | 目前疊代(隨時間自動更新) |
+| `迭代週期:@current` | 目前疊代(欄位名稱需與 Project 完全一致) |
 | `no:assignee` | 沒有指派人 |
 | `is:open` / `is:closed` | 依開關狀態 |
 | `is:issue` / `is:pr` | 依項目類型 |
@@ -352,23 +352,23 @@ Projects 的自動化由淺到深有三層:內建工作流 → GitHub Actions �
 *Workflows 頁面:左側是所有內建工作流,綠點代表已啟用,右上可切換 On/Off 或 Edit*
 
 ![Item closed 工作流](img/20-workflow-item-closed.png)
-*「Item closed」工作流:當 issue/PR 關閉時,自動把 Status 設為 Done*
+*「Item closed」工作流:當 issue/PR 關閉時,自動把 Status 設為「🎉 已完成」*
 
 常用的有:
 
 | 工作流 | 作用 |
 | :--- | :--- |
-| **Item added to project** | 項目加入時自動設定欄位(如 Status → Todo) |
-| **Item closed** | issue/PR 關閉時設定欄位(如 → Done) |
-| **Pull request merged** | PR 合併時設定(如 → Done) |
+| **Item added to project** | 項目加入時自動設定欄位(本範例為 Status → 📥 待整理) |
+| **Item closed** | issue/PR 關閉時設定欄位(本範例為 → 🎉 已完成) |
+| **Pull request merged** | PR 合併時設定(本範例為 → 🎉 已完成) |
 | **Item reopened** | 重新開啟時設定狀態 |
 | **Code changes requested / approved** | 依審查結果設定狀態 |
 | **Auto-add to project** | 符合篩選條件的 repo 項目自動加進 Project |
 | **Auto-archive items** | 符合條件的項目自動封存 |
 
 > ⚙️ Project 剛建立時,預設就啟用兩個工作流:
-> 1. issue/PR 關閉 → Status 設為 **Done**
-> 2. PR 合併 → Status 設為 **Done**
+> 1. issue/PR 關閉 → Status 設為 **🎉 已完成**
+> 2. PR 合併 → Status 設為 **🎉 已完成**
 
 ### 2. GitHub Actions
 
@@ -426,7 +426,7 @@ jobs:
 從 Project 右上 **⋯ → Settings** 進入,可改名稱、預設 repo、簡介與 README;改名、Close、Delete、調整可見性都在這裡:
 
 ![Project settings](img/09-project-settings.png)
-*Project settings:這裡把專案命名為「Penance Manager｜GitHub 專案管理繁中範例」;Custom fields 也列在左側*
+*Project settings:公開範例命名為「Penance Manager｜GitHub 專案管理繁中完整範例」;Custom fields 也列在左側*
 
 | 設定 | 說明 |
 | :--- | :--- |
@@ -455,7 +455,45 @@ jobs:
 
 ---
 
-## 十二、用 gh CLI 操作 Project
+## 十二、從 Issue 到發布的完整範例
+
+公開範例把不同層級的資料分開管理：
+
+| 工具 | 管理範圍 | 公開範例 |
+| :--- | :--- | :--- |
+| Issue | 一個可驗收的需求或問題 | [AI 任務 #8](https://github.com/Oliviaiii/issue_tmp/issues/8) |
+| Parent / Sub-issues | 大功能與可分工的子任務 | [父議題 #11](https://github.com/Oliviaiii/issue_tmp/issues/11)、[#12](https://github.com/Oliviaiii/issue_tmp/issues/12)、[#13](https://github.com/Oliviaiii/issue_tmp/issues/13) |
+| Iteration | 這一個 Sprint 要做什麼 | `Sprint 2026-11｜Project 教學` |
+| Milestone | 哪些 Issue 屬於同一版本或發布目標 | [`v1.0 教學範例`](https://github.com/Oliviaiii/issue_tmp/milestone/1) |
+| Pull Request | 實際改了哪些檔案、測試是否通過 | [文件範例 PR](https://github.com/Oliviaiii/issue_tmp/pulls?q=is%3Apr+is%3Aclosed) |
+| Project | 跨 Issue／PR 的狀態、排序、排程與決策 | [工作流程看板](https://github.com/users/Oliviaiii/projects/1/views/1) |
+
+### 建議操作順序
+
+1. 使用 Issue Form 建立需求；表單自動加上類型與「待確認」Label。
+2. 產品負責人完成分類後移除「待確認」，填入 Priority、Size、Iteration、日期與負責人。
+3. 大型工作建立 Parent issue，再拆成可獨立驗收的 Sub-issues。
+4. 開發者或 Agent 建立 branch，完成修改與測試後開 Pull Request。
+5. PR 內使用 `Closes #6` 等關鍵字建立正式關聯。
+6. CI 通過、人工確認 Diff 與行為後再 Merge；不要把「AI 已檢查」當成人工驗收。
+7. Merge／關閉後由 Workflow 把 Project Status 更新為「🎉 已完成」。
+8. Milestone 內所有工作完成後，再由負責人決定是否發布與關閉 Milestone。
+
+### Repository Rules：公司專案不要只靠口頭約定
+
+到 Repository **Settings → Rules → Rulesets**（舊介面可能顯示 Branch protection rules），建議至少針對 default branch 設定：
+
+- 必須透過 Pull Request 合併，避免直接 push 到正式分支。
+- 必要的 GitHub Actions／測試必須通過。
+- 視團隊規模要求一位以上 Reviewer；個人教學 repo 可先設為 0，避免自己無法示範。
+- 禁止 force push 與刪除 default branch。
+- 合併後自動刪除 branch，保持分支清單乾淨。
+
+> Template Repository 主要複製檔案，不等於複製 Repository 權限、Secrets、Rulesets 與 Project Auto-add。新 repo 建好後必須另外檢查這些設定。
+
+---
+
+## 十三、用 gh CLI 操作 Project
 
 要批次或自動化操作時,GitHub CLI 的 `gh project` 指令很好用。需先安裝 [GitHub CLI](https://cli.github.com/) 並補上 `project` scope:
 
@@ -485,7 +523,7 @@ gh project item-list  <number> --owner <owner>
 # 以 Issue URL、欄位名稱與選項名稱修改欄位
 gh project item-edit <number> --owner <owner> \
   --url https://github.com/<owner>/<repo>/issues/123 \
-  --field "Status" --value "In Progress"
+  --field "Status" --value "🔨 進行中"
 
 # 自動化腳本也可用 GraphQL node IDs 精準修改
 gh project item-edit --id <item-id> --field-id <field-id> --project-id <project-id> --single-select-option-id <option-id>
@@ -495,7 +533,7 @@ gh project item-edit --id <item-id> --field-id <field-id> --project-id <project-
 
 ---
 
-## 十三、實務建議:雙產品線 PM 怎麼用
+## 十四、實務建議:雙產品線 PM 怎麼用
 
 如果你同時管兩條產品線(例如 CMS / OTT),推薦這套做法:
 
@@ -516,33 +554,37 @@ gh project item-edit --id <item-id> --field-id <field-id> --project-id <project-
 
 ---
 
-## 十四、給 AI Agent 協作的推薦欄位
+## 十五、給 AI Agent 協作的推薦欄位
 
 如果 Project 會同時給 PM、工程師與 AI Agent 使用，不要把「工作進度」「部署位置」「驗收結果」全部塞進同一個 Status。建議拆成：
 
 | 欄位 | 回答的問題 | 範例值 |
 | :--- | :--- | :--- |
-| `Status` | 現在工作做到哪裡 | Inbox / Ready / In Progress / Human Review / Done |
-| `Execution` | 預計由誰執行 | Human / AI / Pair |
-| `Environment` | 程式目前在哪個環境 | Local / Preview / Staging / Production |
-| `Validation` | 誰已經驗證 | Not Tested / AI Checked / Human Checked / Accepted |
-| `Priority` | 先做哪一張 | P0 / P1 / P2 / P3 |
-| `Target date` | 預計何時完成 | 日期 |
+| `Status` | 現在工作做到哪裡 | 📥 待整理 / 📌 開發就緒 / 🔨 進行中 / 👀 人工驗收 / 🚀 待發布 / 🎉 已完成 |
+| `執行方式` | 預計由誰執行 | 👤 人工 / 🤖 AI / 🤝 人機協作 |
+| `執行環境` | 程式目前在哪個環境 | 💻 本機 / 👁️ Preview / 🧪 Staging / 🚀 Production |
+| `驗證狀態` | 誰已經驗證 | ⚪ 未測試 / 🔵 AI 已檢查 / 🟡 待人工驗收 / 🟢 已驗收 / 🔴 未通過 |
+| `優先順序` | 先做哪一張 | P0 / P1 / P2 / P3 |
+| `目標日期` | 預計何時完成 | 日期 |
+| `🤖 AI 認領` | Agent 是否已取票 | ⚪ 未認領 / 🟡 已認領 / 🟢 已交付 / 🔴 需協助 |
+| `Agent／認領者` | 哪個 Agent 正在處理 | 文字；教學範例可填 Demo Agent |
+| `認領時間` | 何時開始處理 | 日期 |
+| `執行紀錄` | 到哪裡查看過程或成果 | Issue／PR／執行紀錄 URL |
 
-一張 Issue 進入 `Ready + AI` 只代表內容已經可以交給 Agent，不代表 GitHub 會自動讓 Agent 認領。最簡單的做法仍是由人把 Issue 指派給支援的 coding agent；要自動巡看板、避免重複認領與逾時釋放，必須另外建立排程 Agent 或 API 自動化。
+一張 Issue 進入 `📌 開發就緒 + 🤖 AI + ⚪ 未認領` 只代表內容已經可以交給 Agent，不代表 GitHub 會自動讓 Agent 認領。本範例的 AI 認領欄位只用來示意。最簡單的做法仍是由人把 Issue 指派給支援的 coding agent；要自動巡看板、避免重複認領與逾時釋放，必須另外建立排程 Agent 或 API 自動化。
 
 建議另外建立以下 Views：
 
-1. **AI Ready**：`status:Ready execution:AI`
-2. **Waiting for Human**：`status:"Human Review"`
-3. **Staging 尚未驗收**：`environment:Staging -validation:Accepted`
+1. **AI Ready**：`status:"📌 開發就緒" 執行方式:"🤖 AI" 🤖-AI-認領:"⚪ 未認領"`
+2. **待人工驗收**：`status:"👀 人工驗收"`
+3. **Staging 尚未驗收**：`執行環境:"🧪 Staging" -驗證狀態:"🟢 已驗收"`
 4. **本期工作**：搭配 Iteration 的 `@current`
 
 若使用父 Issue 與 Sub-issues，可顯示 `Parent issue` 與 `Sub-issue progress` 欄位，讓大型功能與子任務的完成比例直接出現在 Project。
 
 ---
 
-## 十五、常用快捷鍵
+## 十六、常用快捷鍵
 
 記不住沒關係 —— 先記住 `Cmd/Ctrl + K` 開 **command palette**,幾乎所有動作都能用搜尋的方式找到。
 
