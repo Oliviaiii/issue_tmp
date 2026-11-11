@@ -157,6 +157,7 @@ Status、Priority、Iteration 等流程資訊建議放在 GitHub Projects 欄位
 - Milestone、父子 Issue、Linked pull requests 與人工驗收如何串成完整流程
 - 新項目、關閉、重新開啟、合併與自動加入 Project 的 Workflow
 - `AI Ready` 任務佇列與 AI 認領欄位的安全示意（不會自動執行）
+- Status、各模組預估工時與各 Sprint 狀態分布的 Insights 圖表
 
 ### 跟著公開資料看一次完整流程
 
