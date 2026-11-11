@@ -5,7 +5,7 @@
 
 > 📷 本文所有截圖皆來自實際操作:以 `issue_tmp` repo 的 issues 建立的公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)**,你可以跟著每一步操作一次。
 >
-> 最後驗證日期：2026-07-17。GitHub Projects 介面更新頻繁，若畫面位置不同，請以功能名稱與官方文件為準。
+> 最後驗證日期：2026-11-11。GitHub Projects 介面更新頻繁，若畫面位置不同，請以功能名稱與官方文件為準。
 
 這份教學把官方文件與實務細節整理在一起,適合第一次接觸 Projects 的人從頭讀:
 
@@ -112,9 +112,11 @@ Views 就是 Table、Board、Roadmap 這三種版面。
 > - 在**組織層級**可自訂 issue types:內建有 Bug、Feature、Task,可再新增自訂類型。
 > - 這是一個「單選」概念,每個 issue 只能有一個 type。
 >
-> **關於 Organization-level fields(組織層級欄位)**
+> **關於 Issue fields（跨 Project 共用欄位）**
 >
-> - 組織可定義統一的結構化欄位(像 priority、effort、dates),套用到組織內各 Project,確保全公司欄位定義一致。這跟 repo 自己的自訂欄位不同,是更上層的共用欄位。
+> - 個人或組織擁有者可定義統一的結構化欄位（例如 priority、effort、dates），讓同一擁有者的 Issues 與 Projects 共用欄位值。
+> - Issue fields 只適用於同一個人或組織擁有的 Issues。Pull Request、draft issue 或其他擁有者的 Issue 會顯示空值。
+> - 每個 Project 最多支援 50 個欄位，Issue fields 與系統欄位也會計入上限。
 
 ### B. 自訂欄位類型(共五種)
 
@@ -474,13 +476,18 @@ gh project create --owner <owner> --title "2026 Q3 Roadmap"
 gh project item-add <number> --owner <owner> --url https://github.com/<owner>/<repo>/issues/123
 
 # 在 Project 內新增 draft item
-gh project item-add <number> --owner <owner> --title "調查登入逾時" --body "細節..."
+gh project item-create <number> --owner <owner> --title "調查登入逾時" --body "細節..."
 
 # 列出欄位 / 列出項目
 gh project field-list <number> --owner <owner>
 gh project item-list  <number> --owner <owner>
 
-# 修改某項目的欄位值(需要 project-id / item-id / field-id,可由上面指令取得)
+# 以 Issue URL、欄位名稱與選項名稱修改欄位
+gh project item-edit <number> --owner <owner> \
+  --url https://github.com/<owner>/<repo>/issues/123 \
+  --field "Status" --value "In Progress"
+
+# 自動化腳本也可用 GraphQL node IDs 精準修改
 gh project item-edit --id <item-id> --field-id <field-id> --project-id <project-id> --single-select-option-id <option-id>
 ```
 
@@ -509,7 +516,33 @@ gh project item-edit --id <item-id> --field-id <field-id> --project-id <project-
 
 ---
 
-## 十四、常用快捷鍵
+## 十四、給 AI Agent 協作的推薦欄位
+
+如果 Project 會同時給 PM、工程師與 AI Agent 使用，不要把「工作進度」「部署位置」「驗收結果」全部塞進同一個 Status。建議拆成：
+
+| 欄位 | 回答的問題 | 範例值 |
+| :--- | :--- | :--- |
+| `Status` | 現在工作做到哪裡 | Inbox / Ready / In Progress / Human Review / Done |
+| `Execution` | 預計由誰執行 | Human / AI / Pair |
+| `Environment` | 程式目前在哪個環境 | Local / Preview / Staging / Production |
+| `Validation` | 誰已經驗證 | Not Tested / AI Checked / Human Checked / Accepted |
+| `Priority` | 先做哪一張 | P0 / P1 / P2 / P3 |
+| `Target date` | 預計何時完成 | 日期 |
+
+一張 Issue 進入 `Ready + AI` 只代表內容已經可以交給 Agent，不代表 GitHub 會自動讓 Agent 認領。最簡單的做法仍是由人把 Issue 指派給支援的 coding agent；要自動巡看板、避免重複認領與逾時釋放，必須另外建立排程 Agent 或 API 自動化。
+
+建議另外建立以下 Views：
+
+1. **AI Ready**：`status:Ready execution:AI`
+2. **Waiting for Human**：`status:"Human Review"`
+3. **Staging 尚未驗收**：`environment:Staging -validation:Accepted`
+4. **本期工作**：搭配 Iteration 的 `@current`
+
+若使用父 Issue 與 Sub-issues，可顯示 `Parent issue` 與 `Sub-issue progress` 欄位，讓大型功能與子任務的完成比例直接出現在 Project。
+
+---
+
+## 十五、常用快捷鍵
 
 記不住沒關係 —— 先記住 `Cmd/Ctrl + K` 開 **command palette**,幾乎所有動作都能用搜尋的方式找到。
 
@@ -528,4 +561,6 @@ gh project item-edit --id <item-id> --field-id <field-id> --project-id <project-
 
 - [GitHub Docs — Planning and tracking with Projects](https://docs.github.com/issues/planning-and-tracking-with-projects)
 - [GitHub Docs — Projects v2 GraphQL API](https://docs.github.com/issues/planning-and-tracking-with-projects/automating-your-project/using-the-api-to-manage-projects)
+- [GitHub Docs — Understanding fields](https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields)
+- [GitHub CLI — gh project](https://cli.github.com/manual/gh_project)
 - [actions/add-to-project](https://github.com/actions/add-to-project)

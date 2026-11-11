@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: "安全性漏洞請勿公開回報"
+    url: "https://github.com/Oliviaiii/issue_tmp/security/policy"
+    about: "請先閱讀安全政策，使用私密漏洞回報或向維護者索取私下聯絡方式。"
   - name: "問題討論與使用協助"
     url: "https://github.com/Oliviaiii/issue_tmp/discussions"
     about: "不確定該選哪一種表單，或想交流 GitHub Issue Forms 與 Projects 的使用方式，可先到討論區提問。"

@@ -18,13 +18,15 @@
 2. 修改 `.github/ISSUE_TEMPLATE/`、`docs/` 或 `scripts/`。
 3. 確認 YAML 使用 UTF-8 編碼且能正常解析。
 4. 若修改 Label 名稱，必須同步更新所有表單、README 與初始化腳本。
-5. 送出 Pull Request，完整填寫變更內容、影響範圍與驗證方式。
+5. 執行 `ruby scripts/validate-templates.rb`，確認表單、Labels 與安裝 manifest 一致。
+6. 送出 Pull Request，完整填寫變更內容、影響範圍與驗證方式。
 
 ## 文字與命名規範
 
 - 讀者看得到的名稱與說明使用繁體中文。
 - GitHub 固有功能名稱可保留英文，例如 Issue、Project、Pull Request、Status。
 - 同一概念使用一致名稱，不在 Label 與 Project 欄位重複表示同一狀態。
+- Label 名稱、顏色與說明統一修改 `config/labels.tsv`；不要在兩支初始化腳本各自維護一份清單。
 - 教學內容若依賴 GitHub 介面或功能，請註明最後驗證日期。
 
 ## Commit 訊息

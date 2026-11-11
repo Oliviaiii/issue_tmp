@@ -3,9 +3,9 @@
 這份文件教你怎麼撰寫 **GitHub Issue 表單**（YAML 格式，副檔名 `.yml`，放在 `.github/ISSUE_TEMPLATE/` 底下）。
 內容包含：頂層欄位、`body` 的 6 種元件、速查表，以及一份**包含全部元件的完整範例**可直接複製。
 
-> 最後驗證日期：2026-07-17。Issue Forms 目前仍屬公開預覽功能，GitHub 可能調整欄位與驗證規則。
+> 最後驗證日期：2026-11-11。Issue Forms 與 GitHub form schema 目前仍屬公開預覽功能，GitHub 可能調整欄位與驗證規則。
 
-> 💡 本 repo 的 9 份模板都是用這套語法寫的，可搭配 [`.github/ISSUE_TEMPLATE/`](../.github/ISSUE_TEMPLATE/) 對照閱讀。
+> 💡 本 repo 的 10 份模板都是用這套語法寫的，可搭配 [`.github/ISSUE_TEMPLATE/`](../.github/ISSUE_TEMPLATE/) 對照閱讀。
 
 ---
 
@@ -97,7 +97,7 @@ body:                     # ← 表單內容，由一連串「元件」組成
     required: true
 ```
 
-> ⚠️ Issue Forms 仍是公開預覽功能。請以 GitHub 官方文件與實際表單預覽結果為準，不要依賴過時的 repository 可見性限制說明。
+> ⚠️ Issue Forms 仍是公開預覽功能。GitHub 目前官方文件註明 `required` 只會在 **public repository** 阻止未完成欄位送出。Private repository 仍可保留這些規則作為表單意圖，但不可把它當成唯一的流程控制，請另外用 Review、Automation 或人工檢查補強。
 
 ---
 
@@ -144,7 +144,10 @@ body:                     # ← 表單內容，由一連串「元件」組成
 | `placeholder` | ❌ | 灰色提示文字（**不會**被送出） |
 | `value` | ❌ | 預設帶入的內容（**會**被送出） |
 
-`validations`：`required: true/false`
+`validations`：
+
+- `required: true/false`：GitHub 目前文件註明只在 public repository 阻止送出
+- `min_length: <非負整數>`：至少輸入多少字元
 
 ---
 
@@ -163,6 +166,7 @@ body:                     # ← 表單內容，由一連串「元件」組成
     render: shell           # ⭐ textarea 獨有
   validations:
     required: false
+    min_length: 20
 ```
 
 | attribute | 必填 | 說明 |
@@ -185,6 +189,8 @@ value: |
 ```
 
 > `placeholder` vs `value`：`placeholder` 是灰字提示、不送出；`value` 是真的填進去、會送出。
+
+`validations` 可使用 `required` 與 `min_length`。`min_length` 也適用於 `input`。
 
 ---
 
@@ -243,7 +249,12 @@ value: |
 | `description` | ❌ | 補充說明 |
 | `options` | ✅ | 選項陣列，每項含 `label`（✅，支援 Markdown 連結）與 `required`（❌，預設 `false`） |
 
-> ⚠️ `checkboxes` 的「必填」寫在**每個 option 裡的 `required`**，不是外層的 `validations`。
+`checkboxes` 有兩種必填方式：
+
+- 每個 option 的 `required: true`：指定這一個選項一定要勾，適合「我已閱讀規範」
+- 外層 `validations.required: true`：要求這組核取方塊完成必填條件
+
+要強制使用者同意某一條規則時，使用 **option 層級**的 `required` 最清楚。
 
 ---
 
@@ -259,6 +270,7 @@ value: |
     description: "上傳前請先移除敏感資訊"
   validations:
     required: false
+    accept: ".png,.jpg,.gif,.log,.txt,.zip"
 ```
 
 | attribute | 必填 | 說明 |
@@ -266,7 +278,10 @@ value: |
 | `label` | ✅ | 上傳區標題 |
 | `description` | ❌ | 檔案用途與隱私提醒 |
 
-`validations`：`required: true/false`
+`validations`：
+
+- `required: true/false`
+- `accept`：逗號分隔的副檔名，例如 `".png,.jpg,.log,.zip"`；省略時接受 GitHub 支援的全部類型
 
 ---
 
@@ -280,14 +295,14 @@ body 元件：
 │ type        │ 主要 attributes                           │ validations         │
 ├─────────────┼───────────────────────────────────────────┼─────────────────────┤
 │ markdown    │ value*                                    │ ✗（無）             │
-│ input       │ label* / description / placeholder / value│ required            │
+│ input       │ label* / description / placeholder / value│ required / min_length│
 │ textarea    │ label* / description / placeholder /      │ required            │
-│             │ value / render                            │                     │
+│             │ value / render                            │ required / min_length│
 │ dropdown    │ label* / description / options* /         │ required            │
 │             │ multiple / default                        │                     │
-│ checkboxes  │ label* / description / options*           │ 寫在 option 內的     │
-│             │ （每項：label* / required）               │ required            │
-│ upload      │ label* / description                      │ required            │
+│ checkboxes  │ label* / description / options*           │ required；option 也可│
+│             │ （每項：label* / required）               │ 各自設 required     │
+│ upload      │ label* / description                      │ required / accept   │
 └─────────────┴───────────────────────────────────────────┴─────────────────────┘
   * = 必填        id = markdown 以外皆可加（選填）
 ```
@@ -410,12 +425,14 @@ body:
 | 狀況 | 原因 / 解法 |
 | --- | --- |
 | 套用標籤沒生效 | 標籤必須**先在 repo 建立**，否則送出時被略過。見 [README 的繁體中文 Labels 章節](../README.md#繁體中文-labels) |
-| 必填驗證與預期不同 | Issue Forms 仍屬公開預覽，請依目前官方文件與表單預覽實測，不要沿用舊版可見性限制說明 |
+| Private repo 的必填沒有阻止送出 | GitHub 目前官方文件註明 `required` 只在 public repository 阻止送出；private repo 請搭配人工 Review 或 Automation |
 | `projects` 沒有自動加入 | 開票者需要指定 Project 的寫入權限；公開回報流程建議改用 Auto-add Workflow |
 | `type` 設了沒效果 | Issue Types **只有組織 repo 支援**，個人 repo 會直接忽略 |
 | dropdown 選項放 `None` | `None` 是保留字，不能當選項文字，改成「無 / 不適用」等 |
-| checkboxes 必填沒作用 | 必填要寫在 **option 的 `required`**，不是外層 `validations` |
-| 表單沒出現在選單 | 檔案要放在 `.github/ISSUE_TEMPLATE/` 且副檔名為 `.yml`；YAML 縮排錯誤會整份失效 |
+| checkboxes 必填和預期不同 | 指定某一格必勾要寫在 **option 的 `required`**；外層 `validations.required` 是整組驗證 |
+| `min_length` 沒作用 | 只適用於 `input` 與 `textarea`，值必須是非負整數 |
+| upload 接受了不想要的檔案 | 在 `validations.accept` 使用逗號分隔副檔名 |
+| 表單沒出現在選單 | 檔案要放在 **default branch** 的 `.github/ISSUE_TEMPLATE/` 且副檔名為 `.yml`；YAML 縮排錯誤會整份失效 |
 | 中文 / emoji 顯示亂碼 | 檔案請存成 **UTF-8（不含 BOM）** 編碼 |
 
 ---

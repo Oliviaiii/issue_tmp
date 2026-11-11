@@ -3,7 +3,7 @@
 > 這是 GitHub Projects 系列的延伸篇,專門講**自動化**。
 > 前一篇[《GitHub Projects 完整教學》](github-projects-教學.md)帶你認識視圖與欄位;這篇聚焦在「怎麼讓 Project 自己動」——項目加進來自動設狀態、issue 關閉自動標 Done、符合條件的 issue 自動匯入等等,讓你少做重複的手動操作。
 >
-> 最後驗證日期：2026-07-17。可搭配公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)** 操作。
+> 最後驗證日期：2026-11-11。可搭配公開範例 Project **[「Penance Manager｜GitHub 專案管理繁中範例」](https://github.com/users/Oliviaiii/projects/1)** 操作。
 
 ---
 
@@ -229,7 +229,35 @@ gh api graphql -f query='...'
 
 ---
 
-## 八、常見問題與注意事項
+## 八、從 Project 交付任務給 AI Agent
+
+GitHub 的 Built-in workflows 可以把 Issue 加進 Project、設定 Status、關閉或封存項目，但**不會只因一張票進入 `Ready` 就自動讓 AI Agent 認領**。
+
+### 入門做法：人指派，Agent 開 PR
+
+1. 使用 [`10-ai_agent_task.yml`](../.github/ISSUE_TEMPLATE/10-ai_agent_task.yml) 寫清楚範圍、限制、驗收與人工關卡
+2. 將 Project 的 `Status` 設為 `Ready`，`Execution` 設為 `AI`
+3. 人類把 Issue 指派給支援的 coding agent
+4. Agent 建 branch、修改檔案、執行測試並開 Pull Request
+5. Project 改成 `Human Review`
+6. 人類檢查 Diff、驗證證據與實際行為後，再決定 Merge、部署與結案
+
+### 進階做法：排程 Agent 自動取票
+
+要讓 Agent 自動巡看板，需要另外用 GitHub MCP、`gh project item-list`、GraphQL API 或其他排程工具建立流程：
+
+1. 查詢 `status:Ready execution:AI`
+2. 選擇尚未指派、沒有 `Claimed by` 的項目
+3. 先寫入 Assignee／Claimed by／Started at，再開始工作
+4. 使用原子性更新、鎖定欄位或二次讀取，避免兩個 Agent 同時認領
+5. 成功時建立 PR 並改成 `Human Review`
+6. 失敗或逾時時保留錯誤證據、釋放認領狀態並通知人
+
+這一層還要處理權限、重試、逾時、取消、費用與 Prompt injection。建議先把人工指派流程跑穩，再逐步自動化。
+
+---
+
+## 九、常見問題與注意事項
 
 - **預設只開兩個**:新 Project 只預設啟用「關閉 → Done」「PR 合併 → Done」,其餘要自己開。
 - **Auto-add 一 repo 一條**:跨多 repo 要分別設定多條 Auto-add。
@@ -240,7 +268,7 @@ gh api graphql -f query='...'
 
 ---
 
-## 九、快速檢查清單
+## 十、快速檢查清單
 
 設定完自動化後,照這份清單掃一遍:
 
@@ -250,6 +278,8 @@ gh api graphql -f query='...'
 - [ ] 動作用到的 Status 選項(Todo / In Progress / In Review / Done)都已建立?
 - [ ] 要啟用的工作流前面都是實心綠點?
 - [ ] (進階)跨 repo 需求是否該改用 Actions 的 `add-to-project`?
+- [ ] AI 任務是否有範圍、禁止動作、驗收條件、證據與人工關卡?
+- [ ] 自動取票流程是否能避免重複認領並處理逾時釋放?
 
 ---
 
@@ -259,3 +289,5 @@ gh api graphql -f query='...'
 - [GitHub Docs — Using the built-in automations](https://docs.github.com/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations)
 - [actions/add-to-project](https://github.com/actions/add-to-project)
 - [GitHub Docs — Projects v2 GraphQL API](https://docs.github.com/issues/planning-and-tracking-with-projects/automating-your-project/using-the-api-to-manage-projects)
+- [GitHub 官方 MCP Server](https://github.com/github/github-mcp-server)
+- [GitHub Docs — Third-party coding agents](https://docs.github.com/en/copilot/concepts/agent-capabilities/about-agents/about-third-party-coding-agents)

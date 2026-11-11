@@ -28,6 +28,12 @@ body:
       required: true
 
   - type: textarea
+    id: current_workaround
+    attributes:
+      label: "目前做法或替代方式"
+      description: "現在怎麼處理？花費多少時間、容易在哪裡出錯？"
+
+  - type: textarea
     id: scope
     attributes:
       label: "範圍"
@@ -63,6 +69,21 @@ body:
       label: "相依項目與風險"
       description: "相關 Issue、服務、資料、時程或其他限制"
 
+  - type: textarea
+    id: quality_constraints
+    attributes:
+      label: "非功能需求與限制"
+      description: "需要考慮的權限、個資、資安、效能、無障礙、多語系、裝置或相容性"
+
+  - type: textarea
+    id: rollout
+    attributes:
+      label: "上線、觀察與回滾方式"
+      value: |
+        - 上線方式：
+        - 需要觀察的指標／Log：
+        - 失敗時如何關閉或回滾：
+
   - type: upload
     id: references
     attributes:
@@ -70,3 +91,4 @@ body:
       description: "可上傳流程圖、線框圖、設計稿截圖或其他參考檔案"
     validations:
       required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.pdf,.docx,.xlsx,.pptx"

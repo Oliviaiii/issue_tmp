@@ -43,6 +43,18 @@ body:
       description: "例如：預設、Hover、Loading、空資料、錯誤、停用與權限不足"
 
   - type: textarea
+    id: accessibility
+    attributes:
+      label: "無障礙與操作需求"
+      description: "鍵盤操作、焦點順序、色彩對比、替代文字、縮放或螢幕閱讀器需求"
+
+  - type: textarea
+    id: content_i18n
+    attributes:
+      label: "文案與多語系"
+      description: "正式文案、錯誤訊息、空狀態，以及不同語言的長度或換行情境"
+
+  - type: textarea
     id: acceptance_criteria
     attributes:
       label: "驗收條件"
@@ -59,3 +71,4 @@ body:
       description: "可上傳修改前畫面、預期畫面與設計稿截圖"
     validations:
       required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.mov,.webm,.pdf"

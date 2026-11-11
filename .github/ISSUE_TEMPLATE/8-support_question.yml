@@ -27,6 +27,17 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: expected_actual
+    attributes:
+      label: "預期結果與目前看到的結果"
+      value: |
+        **預期：**
+
+        **目前結果：**
+    validations:
+      required: true
+
   - type: input
     id: environment
     attributes:
@@ -39,6 +50,12 @@ body:
       label: "已嘗試的方法"
       description: "請列出已查過的文件、操作步驟與結果"
 
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "可重現步驟"
+      description: "若問題可重現，請列出從哪個畫面／指令開始，以及每一步的結果"
+
   - type: upload
     id: evidence
     attributes:
@@ -46,3 +63,4 @@ body:
       description: "上傳前請移除帳號、Token、Cookie 與個人資料"
     validations:
       required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.mov,.webm,.log,.txt,.json,.zip"

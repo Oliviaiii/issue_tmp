@@ -28,6 +28,14 @@ body:
       required: true
 
   - type: textarea
+    id: affected_users
+    attributes:
+      label: "受影響角色與使用情境"
+      description: "哪些人、哪個流程或哪些既有資料會受到影響"
+    validations:
+      required: true
+
+  - type: textarea
     id: acceptance_criteria
     attributes:
       label: "驗收條件"
@@ -46,6 +54,16 @@ body:
         - API／資料結構影響：
         - 舊資料或既有流程相容性：
 
+  - type: textarea
+    id: migration_rollout
+    attributes:
+      label: "資料遷移、上線與回滾"
+      value: |
+        - 是否需要資料轉換／補資料：
+        - 是否需要 Feature flag 或分批開放：
+        - 回滾方式：
+        - 上線後觀察項目：
+
   - type: upload
     id: references
     attributes:
@@ -53,3 +71,4 @@ body:
       description: "可上傳現況截圖、預期畫面、流程圖或其他附件"
     validations:
       required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.pdf,.docx,.xlsx,.pptx"

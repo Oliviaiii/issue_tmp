@@ -2,16 +2,36 @@
 
 這是一套可直接套用的 **GitHub Issue 表單、Pull Request 模板與 Projects 教學**。目標不是只提供 YAML 範例，而是讓產品經理、工程師與開源維護者可以實際體驗「需求進 Issue、進度進 Project、完成後由 Pull Request 關聯」的完整流程。
 
-> 最後驗證日期：2026-07-17
+> 最後驗證日期：2026-11-11
 
 ## 快速開始
 
+- [交給 AI 自動盤點與安裝](AI_INSTALL.md)
 - [使用此範本建立新 repository](https://github.com/Oliviaiii/issue_tmp/generate)
 - [實際開一張 Issue 試用表單](https://github.com/Oliviaiii/issue_tmp/issues/new/choose)
 - [查看公開 Projects 範例](https://github.com/users/Oliviaiii/projects/1)
 - [提出問題或交流使用方式](https://github.com/Oliviaiii/issue_tmp/discussions)
 
 > GitHub 的 Template Repository 只會複製檔案與目錄，不會複製 Labels、Issues 或 Project。建立新 repository 後，請執行下方的 Labels 初始化腳本。
+
+## 最推薦：讓 AI 讀取後安裝
+
+如果使用的 AI 可以連接 GitHub MCP、GitHub CLI 或本機 Git，不需要手動逐個複製檔案。把以下提示詞交給 AI：
+
+```text
+請閱讀 https://github.com/Oliviaiii/issue_tmp/blob/main/AI_INSTALL.md
+以及 https://github.com/Oliviaiii/issue_tmp/blob/main/install-manifest.yml
+
+把 starter profile 安裝到 <OWNER/REPO 或本機完整路徑>
+先盤點 default branch、現有 Issue Templates、PR Template、SECURITY.md 與 Labels
+先回報新增／保留／衝突項目，等我確認後再執行
+不要覆蓋或刪除既有內容
+檔案請建立新 branch 與 Pull Request
+Labels 只建立缺少的項目
+完成後重新讀取 GitHub 並提供可驗證結果
+```
+
+可用 profile：`starter`、`product`、`agent`、`full`。完整的安全規則、衝突處理與驗證方式見 [`AI_INSTALL.md`](AI_INSTALL.md)。
 
 ## 教學路線
 
@@ -21,6 +41,7 @@
 | 自己修改 Issue Form YAML | [GitHub Issue Form 語法教學](docs/issue-form-語法教學.md) |
 | 用同一批資料建立 Table、Board、Roadmap | [GitHub Projects 完整教學](docs/github-projects-教學.md) |
 | 讓狀態與項目自動流轉 | [GitHub Projects 自動化教學](docs/github-projects-workflow教學.md) |
+| 讓 AI 安裝範本與建立 Labels | [AI 安裝教學](AI_INSTALL.md) |
 
 ## 內容結構
 
@@ -36,12 +57,18 @@
 │   ├── 6-spike_research.yml
 │   ├── 7-documentation.yml
 │   ├── 8-support_question.yml
-│   └── 9-incident_prod.yml
+│   ├── 9-incident_prod.yml
+│   └── 10-ai_agent_task.yml
 ├── PULL_REQUEST_TEMPLATE.md
+├── SECURITY.md
 ├── CONTRIBUTING.md
-└── CODE_OF_CONDUCT.md
+├── CODE_OF_CONDUCT.md
+└── workflows/validate-templates.yml
+config/labels.tsv             # Labels 的單一資料來源
 docs/                         # Issue Forms 與 Projects 完整教學
 scripts/                      # 繁中 Labels 初始化腳本
+AI_INSTALL.md                 # 給 AI Agent 閱讀的安裝規格
+install-manifest.yml          # starter / product / agent / full 安裝清單
 ```
 
 ## Issue 表單一覽
@@ -57,6 +84,7 @@ scripts/                      # 繁中 Labels 初始化腳本
 | 文件需求／修正 | README、規格、API 文件與 SOP | `[文件]` | `文件需求/修正`、`待確認` |
 | 支援／提問 | 非錯誤、非需求的使用問題 | `[提問]` | `提問`、`待確認` |
 | 線上事故 | 重大異常、服務退化與事故追蹤 | `[線上事故]` | `線上事故`、`待確認` |
+| AI Agent 任務 | 範圍、限制、驗證與人工關卡已明確的 Agent 工作 | `[AI 任務]` | `AI 任務`、`待確認` |
 
 ## 套用方式
 
@@ -75,6 +103,18 @@ macOS／Linux：
 ```bash
 bash scripts/setup-labels.sh
 ```
+
+要替另一個 repository 建立缺少的 Labels：
+
+```powershell
+.\scripts\setup-labels.ps1 -Repository OWNER/REPO
+```
+
+```bash
+bash scripts/setup-labels.sh --repo OWNER/REPO
+```
+
+腳本預設保留同名 Label 的顏色與說明。只有明確要同步時才使用 `-UpdateExisting` 或 `--update-existing`。
 
 若希望一併移除 GitHub 預設的英文 Labels：
 
@@ -98,10 +138,14 @@ bash scripts/setup-labels.sh --remove-default-english-labels
 
 本範例使用兩種 Label：
 
-- **需求類型**：`錯誤回報`、`功能新增`、`功能修改`、`任務追蹤`、`樣式調整`、`技術調研`、`文件需求/修正`、`提問`、`線上事故`
+- **需求類型**：`錯誤回報`、`功能新增`、`功能修改`、`任務追蹤`、`樣式調整`、`技術調研`、`文件需求/修正`、`提問`、`線上事故`、`AI 任務`
 - **協作狀態**：`待確認`、`重複問題`、`適合新手`、`歡迎協助`、`無效回報`、`暫不處理`
 
 Status、Priority、Iteration 等流程資訊建議放在 GitHub Projects 欄位，不要再用 Labels 重複維護，避免同一狀態出現兩份資料。
+
+所有 Label 名稱、顏色與說明統一維護在 [`config/labels.tsv`](config/labels.tsv)。PowerShell 與 Bash 腳本都讀取同一份資料，避免兩套清單不同步。
+
+> 若用 AI 安裝或手動複製到其他 repository，記得把 `.github/ISSUE_TEMPLATE/config.yml` 的 Security／Discussions 連結改成目標 repository。沒有啟用 Discussions 時，請移除該 contact link。
 
 ## 公開 Projects 範例
 
@@ -119,7 +163,19 @@ Project 是個人或組織層級的資源，不會隨 Template Repository 一起
 - Labels 必須先存在，Issue Form 才能自動套用。
 - `projects:` 只有在開票者對指定 Project 具有寫入權限時才能自動加入；公開表單建議使用 Project 的 Auto-add Workflow。
 - Issue Type 是組織層級功能，個人帳號 repository 請使用 Labels 分類。
+- GitHub 官方目前說明 `required` 只會在 public repository 阻止未完成的表單送出；private repository 不要把 YAML 驗證當成唯一流程控制。
+- 安全性漏洞不要透過公開 Issue 回報；請先客製化 [安全政策](.github/SECURITY.md)，並評估啟用 Private vulnerability reporting。
 - 複製後請調整表單欄位、Project 欄位與貢獻規範，不要把所有範例原封不動帶進正式專案。
+
+## 自動驗證
+
+本 repository 會在相關 Pull Request 與 `main` 更新時執行 `scripts/validate-templates.rb`，檢查：
+
+- YAML 可解析、頂層必要欄位與元件類型正確
+- `id` 不重複且格式有效
+- dropdown／checkboxes／upload 驗證設定合理
+- 表單引用的 Labels 存在於 `config/labels.tsv`
+- `install-manifest.yml` 引用的檔案與 Labels 存在
 
 ## 授權與貢獻
 

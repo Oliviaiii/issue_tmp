@@ -20,6 +20,14 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: detection
+    attributes:
+      label: "發現方式"
+      description: "例如監控告警、客服回報、使用者回報或人工巡檢"
+    validations:
+      required: true
+
   - type: textarea
     id: impact
     attributes:
@@ -80,6 +88,21 @@ body:
       required: true
 
   - type: textarea
+    id: communications
+    attributes:
+      label: "對內／對外溝通"
+      value: |
+        - 已通知對象：
+        - 狀態頁／公告：
+        - 下次更新時間：
+
+  - type: textarea
+    id: data_security
+    attributes:
+      label: "資料與資安影響"
+      description: "是否涉及資料遺失、錯誤寫入、個資、未授權存取或憑證外洩；未知請填「調查中」"
+
+  - type: textarea
     id: follow_up
     attributes:
       label: "後續行動"
@@ -96,3 +119,4 @@ body:
       description: "上傳前請移除帳號、Token、Cookie 與個人資料"
     validations:
       required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.mov,.webm,.log,.txt,.json,.csv,.zip"

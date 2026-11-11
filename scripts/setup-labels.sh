@@ -1,30 +1,81 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-create_label() {
-  gh label create "$1" --color "$2" --description "$3" --force
-}
+repository=""
+update_existing=false
+remove_default_english=false
 
-create_label "錯誤回報" "d73a4a" "回報系統異常或不符合預期的行為"
-create_label "功能新增" "0e8a16" "提出全新功能、流程或頁面需求"
-create_label "功能修改" "1d76db" "調整既有功能的行為或流程"
-create_label "任務追蹤" "fbca04" "追蹤具體且可驗收的工作項目"
-create_label "樣式調整" "c5def5" "版型、介面與視覺樣式調整"
-create_label "技術調研" "5319e7" "技術研究、試作與可行性驗證"
-create_label "文件需求/修正" "0075ca" "新增、補充或修正文件"
-create_label "提問" "cc317c" "使用支援與一般問題"
-create_label "線上事故" "b60205" "正式環境重大異常或服務退化"
-create_label "待確認" "ededed" "尚待確認內容、範圍或優先順序"
-create_label "重複問題" "cfd3d7" "已有相同或高度相關的 Issue"
-create_label "適合新手" "7057ff" "適合第一次參與本專案的人處理"
-create_label "歡迎協助" "008672" "歡迎社群成員協助處理"
-create_label "無效回報" "e4e669" "資訊不足、無法重現或不屬於有效問題"
-create_label "暫不處理" "ffffff" "目前沒有規劃處理"
+while (($# > 0)); do
+  case "$1" in
+    --repo)
+      repository="${2:?--repo 需要 OWNER/REPO}"
+      shift 2
+      ;;
+    --update-existing)
+      update_existing=true
+      shift
+      ;;
+    --remove-default-english-labels)
+      remove_default_english=true
+      shift
+      ;;
+    -h|--help)
+      printf '%s\n' "用法：bash scripts/setup-labels.sh [--repo OWNER/REPO] [--update-existing] [--remove-default-english-labels]"
+      exit 0
+      ;;
+    *)
+      printf '未知參數：%s\n' "$1" >&2
+      exit 2
+      ;;
+  esac
+done
 
-if [[ "${1:-}" == "--remove-default-english-labels" ]]; then
+if ! command -v gh >/dev/null 2>&1; then
+  printf '%s\n' "找不到 GitHub CLI（gh）。請先安裝並完成 gh auth login。" >&2
+  exit 1
+fi
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "$script_dir/.." && pwd)"
+labels_path="$repo_root/config/labels.tsv"
+
+repo_args=()
+if [[ -n "$repository" ]]; then
+  repo_args=(--repo "$repository")
+fi
+
+declare -A existing_labels=()
+if ! existing_output="$(gh label list "${repo_args[@]}" --limit 1000 --json name --jq '.[].name')"; then
+  printf '%s\n' "無法讀取目標 repository 的 Labels。請確認 gh 登入狀態、repository 與權限。" >&2
+  exit 1
+fi
+
+while IFS= read -r existing_name; do
+  existing_name="${existing_name%$'\r'}"
+  [[ -n "$existing_name" ]] && existing_labels["${existing_name,,}"]=1
+done <<< "$existing_output"
+
+while IFS=$'\t' read -r name color description; do
+  name="${name%$'\r'}"
+  color="${color%$'\r'}"
+  description="${description%$'\r'}"
+  [[ "$name" == "name" || -z "$name" ]] && continue
+
+  normalized_name="${name,,}"
+  if [[ -n "${existing_labels[$normalized_name]:-}" && "$update_existing" != true ]]; then
+    printf '保留既有 Label：%s\n' "$name"
+    continue
+  fi
+
+  force_args=()
+  [[ -n "${existing_labels[$normalized_name]:-}" ]] && force_args=(--force)
+  gh label create "$name" --color "$color" --description "$description" "${force_args[@]}" "${repo_args[@]}"
+done < "$labels_path"
+
+if [[ "$remove_default_english" == true ]]; then
   for label in "bug" "documentation" "duplicate" "enhancement" "good first issue" "help wanted" "invalid" "question" "wontfix"; do
-    gh label delete "$label" --yes 2>/dev/null || true
+    gh label delete "$label" --yes "${repo_args[@]}" 2>/dev/null || true
   done
 fi
 
-printf '%s\n' "繁體中文 Labels 已建立完成。"
+printf '%s\n' "Labels 處理完成。預設保留同名 Label；使用 --update-existing 才會同步顏色與說明。"

@@ -1,0 +1,32 @@
+name: Validate GitHub templates
+
+on:
+  pull_request:
+    paths:
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - "config/labels.tsv"
+      - "install-manifest.yml"
+      - "scripts/validate-templates.rb"
+  push:
+    branches: [main]
+    paths:
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - "config/labels.tsv"
+      - "install-manifest.yml"
+      - "scripts/validate-templates.rb"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Validate Issue Forms and install manifest
+        run: ruby scripts/validate-templates.rb
+

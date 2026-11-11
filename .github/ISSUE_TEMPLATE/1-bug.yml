@@ -49,6 +49,19 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: "發生頻率"
+      options:
+        - "每次都會發生"
+        - "經常發生"
+        - "偶爾發生"
+        - "只發生過一次"
+        - "目前無法判斷"
+    validations:
+      required: true
+
   - type: textarea
     id: steps
     attributes:
@@ -85,6 +98,18 @@ body:
         - App／系統版本：
 
   - type: textarea
+    id: regression
+    attributes:
+      label: "最後正常版本與近期變更"
+      description: "如果以前正常，請填最後正常的版本／時間，以及近期可能相關的部署或設定變更"
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: "暫時替代方式"
+      description: "目前是否有繞過方法；沒有可填「無」"
+
+  - type: textarea
     id: logs
     attributes:
       label: "錯誤訊息或紀錄"
@@ -98,3 +123,4 @@ body:
       description: "可上傳截圖、錄影或其他有助於判斷問題的檔案"
     validations:
       required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.mov,.webm,.log,.txt,.json,.zip"

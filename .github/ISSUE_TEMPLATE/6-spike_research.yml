@@ -27,6 +27,17 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: "目前假設與未知事項"
+      value: |
+        **目前假設：**
+        -
+
+        **仍需確認：**
+        -
+
   - type: input
     id: timebox
     attributes:
@@ -61,3 +72,9 @@ body:
       description: "什麼條件成立時選擇方案 A、方案 B，或決定暫不進行？"
     validations:
       required: true
+
+  - type: textarea
+    id: stop_conditions
+    attributes:
+      label: "停止條件與後續交接"
+      description: "遇到哪些條件就停止研究；結論要由誰決策、如何轉成後續 Issue"

@@ -54,6 +54,21 @@ body:
       required: true
 
   - type: textarea
+    id: sources
+    attributes:
+      label: "依據與 Source of Truth"
+      description: "哪些程式碼、API、正式規格或負責人可以確認內容正確"
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: "文件驗證方式"
+      value: |
+        - [ ] 連結與指令可以實際使用
+        - [ ] 範例與目前版本一致
+        - [ ] 目標讀者可以依文件完成任務
+
+  - type: textarea
     id: references
     attributes:
       label: "🧩 參考資料（選填）"
@@ -64,3 +79,12 @@ body:
         - 其他連結：
     validations:
       required: false
+
+  - type: upload
+    id: attachments
+    attributes:
+      label: "截圖、流程圖或其他附件"
+      description: "上傳前請移除敏感資訊"
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.pdf,.docx,.xlsx,.pptx"

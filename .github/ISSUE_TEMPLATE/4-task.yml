@@ -22,6 +22,12 @@ body:
       required: true
 
   - type: textarea
+    id: out_of_scope
+    attributes:
+      label: "本次不做"
+      description: "列出容易被誤會包含、但這張任務不處理的內容"
+
+  - type: textarea
     id: done_definition
     attributes:
       label: "完成定義"
@@ -38,3 +44,23 @@ body:
     attributes:
       label: "相依項目與注意事項"
       description: "相關 Issue、Pull Request、服務、資料或時程限制"
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: "驗證方式與交付證據"
+      value: |
+        - 自動測試：
+        - 人工驗證：
+        - 文件／截圖／Log：
+    validations:
+      required: true
+
+  - type: upload
+    id: references
+    attributes:
+      label: "參考資料"
+      description: "上傳前請移除個資、帳號、Token、Cookie 與客戶資料"
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.pdf,.txt,.log,.json,.zip"

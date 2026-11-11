@@ -1,0 +1,121 @@
+name: "🤖 AI Agent 任務"
+description: "把範圍、限制、驗證與人工關卡寫清楚後，再交給 AI Agent 執行"
+title: "[AI 任務] "
+labels: ["AI 任務", "待確認"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        這張表單適合能由 AI Agent 建 branch、修改檔案、執行測試並開 Pull Request 的任務。
+        請勿貼入密碼、Token、Cookie、個資、客戶資料或未授權的內部資訊。
+
+  - type: dropdown
+    id: execution_mode
+    attributes:
+      label: "預計執行方式"
+      options:
+        - "本機 Agent"
+        - "雲端 Coding Agent"
+        - "只請 AI 規劃，由人執行"
+        - "尚未決定"
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: "預期成果"
+      description: "任務結束後，使用者或系統應該得到什麼可觀察的結果"
+      placeholder: "例如：使用者連續登入失敗 5 次後，畫面顯示清楚的鎖定時間與下一步"
+    validations:
+      required: true
+      min_length: 20
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "背景與現況"
+      description: "說明問題、既有行為、相關 Issue／PR／文件，以及為什麼現在要處理"
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: "允許範圍與本次不做"
+      value: |
+        **可以修改：**
+        -
+
+        **本次不做：**
+        -
+
+        **允許使用的服務／工具：**
+        -
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: "資料、環境與相容性限制"
+      value: |
+        - 可使用的資料：
+        - 禁止接觸的資料：
+        - 目標環境：
+        - 相容性／版本限制：
+        - 效能、權限或合規要求：
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "驗收條件"
+      description: "每一條都要能由測試、畫面或資料變化判定通過／不通過"
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: "必要驗證與交付證據"
+      value: |
+        - 自動測試：
+        - 人工操作：
+        - 需要的截圖／錄影／Log：
+        - PR 說明必須包含：
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: "風險、回滾與失敗處理"
+      description: "什麼情況必須停止、如何還原，以及需要回報給誰"
+
+  - type: checkboxes
+    id: human_gates
+    attributes:
+      label: "人工關卡"
+      description: "以下限制不因 Agent 宣稱完成而取消"
+      options:
+        - label: "有疑義、超出範圍或需要新權限時，Agent 必須停止並回報"
+          required: true
+        - label: "Merge、正式環境部署、資料刪除與 Issue 結案仍由人決定"
+          required: true
+        - label: "完成實作不等於驗收通過，必須交付驗證證據供人檢查"
+          required: true
+
+  - type: upload
+    id: references
+    attributes:
+      label: "畫面、流程圖或其他參考資料"
+      description: "上傳前請移除個資、帳號、Token、Cookie 與客戶資料"
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.pdf,.txt,.log,.json"
+
