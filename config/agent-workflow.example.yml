@@ -1,0 +1,39 @@
+schema_version: 1
+
+# 複製到目標 Repo 的 .github/agent-workflow.yml 後再依專案修改
+# 不要在這裡放密碼、Token、正式資料庫連線字串或其他機密
+
+issue:
+  default_base_branch: "develop"
+  branch_pattern: "feat/issue-{issue_number}"
+  worktree_root: ".worktrees"
+
+environment:
+  # 填完並由人確認所有命令後，才改成 true
+  enabled: false
+  setup_dependencies: []
+  setup_database: ""
+  setup_preview: ""
+  verify: []
+  cleanup: ""
+
+outputs:
+  database_identifier_source: "填寫指令輸出位置或檔案欄位"
+  preview_url_source: "填寫指令輸出位置或檔案欄位"
+
+tests:
+  quick: []
+  full: []
+
+project_fields:
+  work_status: "Work Status"
+  environment: "Environment"
+  validation: "Validation"
+
+human_gates:
+  require_confirmation:
+    - "merge"
+    - "production_deploy"
+    - "close_issue"
+    - "destructive_database_operation"
+    - "cleanup_environment"

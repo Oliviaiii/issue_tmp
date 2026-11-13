@@ -142,6 +142,54 @@ form_paths.each do |path_string|
   end
 end
 
+skill_paths = Dir[ROOT.join(".github", "skills", "*", "SKILL.md").to_s].sort
+errors << "找不到 Agent Skill" if skill_paths.empty?
+
+skill_paths.each do |path_string|
+  path = Pathname.new(path_string)
+  relative = path.relative_path_from(ROOT).to_s
+  content = path.read(encoding: "UTF-8")
+  match = content.match(/\A---\s*\r?\n(.*?)\r?\n---\s*(?:\r?\n|\z)/m)
+
+  unless match
+    errors << "#{relative}: 缺少有效的 YAML frontmatter"
+    next
+  end
+
+  begin
+    frontmatter = YAML.safe_load(match[1], permitted_classes: [], aliases: false)
+  rescue Psych::SyntaxError => e
+    errors << "#{relative}: frontmatter 無法解析（#{e.message.lines.first.strip}）"
+    next
+  end
+
+  unless frontmatter.is_a?(Hash)
+    errors << "#{relative}: frontmatter 必須是 mapping"
+    next
+  end
+
+  expected_name = path.dirname.basename.to_s
+  name = frontmatter["name"].to_s
+  description = frontmatter["description"].to_s.strip
+
+  errors << "#{relative}: name 必須等於資料夾名稱 #{expected_name}" unless name == expected_name
+  errors << "#{relative}: name 格式不合法" unless name.match?(/\A[a-z0-9]+(?:-[a-z0-9]+)*\z/)
+  errors << "#{relative}: description 不可為空" if description.empty?
+end
+
+begin
+  workflow_example = YAML.safe_load(
+    ROOT.join("config", "agent-workflow.example.yml").read(encoding: "UTF-8"),
+    permitted_classes: [],
+    aliases: false
+  )
+  %w[schema_version issue environment outputs tests project_fields human_gates].each do |key|
+    errors << "config/agent-workflow.example.yml: 缺少 #{key}" unless workflow_example.is_a?(Hash) && workflow_example.key?(key)
+  end
+rescue Errno::ENOENT, Psych::SyntaxError => e
+  errors << "config/agent-workflow.example.yml 無效：#{e.message}"
+end
+
 begin
   manifest = YAML.safe_load(ROOT.join("install-manifest.yml").read(encoding: "UTF-8"), permitted_classes: [], aliases: false)
   manifest.fetch("profiles").each do |profile_name, profile|
@@ -169,7 +217,7 @@ rescue KeyError, Psych::SyntaxError => e
 end
 
 if errors.empty?
-  puts "Issue Forms、Labels 與安裝 manifest 驗證通過（#{form_paths.length} 份表單）。"
+  puts "Issue Forms、Labels、Agent Skills 與安裝 manifest 驗證通過（#{form_paths.length} 份表單、#{skill_paths.length} 個 Skills）。"
   exit 0
 end
 

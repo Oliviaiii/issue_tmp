@@ -1,8 +1,8 @@
 # GitHub Issue Forms 與 Projects 繁體中文教學
 
-這是一套可直接套用的 **GitHub Issue 表單、Pull Request 模板與 Projects 教學**。目標不是只提供 YAML 範例，而是讓產品經理、工程師與開源維護者可以實際體驗「需求進 Issue、進度進 Project、完成後由 Pull Request 關聯」的完整流程。
+這是一套可直接套用的 **GitHub Issue 表單、Pull Request 模板、Agent Skills 與 Projects 教學**。目標不是只提供 YAML 範例，而是讓產品經理、工程師與開源維護者可以實際體驗「需求進 Issue、Agent 建立隔離環境、進度進 Project、完成後由 Pull Request 關聯」的完整流程。
 
-> 最後驗證日期：2026-11-11
+> 最後驗證日期：2026-11-13
 
 ## 快速開始
 
@@ -10,6 +10,7 @@
 - [使用此範本建立新 repository](https://github.com/Oliviaiii/issue_tmp/generate)
 - [實際開一張 Issue 試用表單](https://github.com/Oliviaiii/issue_tmp/issues/new/choose)
 - [查看公開 Projects 範例](https://github.com/users/Oliviaiii/projects/1)
+- [複製 Issue Agent Skills](docs/agent-skills-使用指南.md)
 - [提出問題或交流使用方式](https://github.com/Oliviaiii/issue_tmp/discussions)
 
 > GitHub 的 Template Repository 只會複製檔案與目錄，不會複製 Labels、Issues 或 Project。建立新 repository 後，請執行下方的 Labels 初始化腳本。
@@ -31,7 +32,7 @@ Labels 只建立缺少的項目
 完成後重新讀取 GitHub 並提供可驗證結果
 ```
 
-可用 profile：`starter`、`product`、`agent`、`full`。完整的安全規則、衝突處理與驗證方式見 [`AI_INSTALL.md`](AI_INSTALL.md)。
+可用 profile：`starter`、`product`、`agent`、`full`。`agent` 與 `full` 會包含四個 Agent Skills 與專案環境設定範本。完整的安全規則、衝突處理與驗證方式見 [`AI_INSTALL.md`](AI_INSTALL.md)。
 
 ## 教學路線
 
@@ -42,6 +43,7 @@ Labels 只建立缺少的項目
 | 用同一批資料建立 Table、Board、Roadmap | [GitHub Projects 完整教學](docs/github-projects-教學.md) |
 | 讓狀態與項目自動流轉 | [GitHub Projects 自動化教學](docs/github-projects-workflow教學.md) |
 | 讓 AI 安裝範本與建立 Labels | [AI 安裝教學](AI_INSTALL.md) |
+| 讓 Agent 依 Issue 建立隔離環境與交付證據 | [Issue Agent Skills 使用指南](docs/agent-skills-使用指南.md) |
 
 ## 內容結構
 
@@ -63,8 +65,14 @@ Labels 只建立缺少的項目
 ├── SECURITY.md
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
+├── skills/
+│   ├── issue-start/SKILL.md
+│   ├── issue-check/SKILL.md
+│   ├── issue-qa/SKILL.md
+│   └── pr-review/SKILL.md
 └── workflows/validate-templates.yml
 config/labels.tsv             # Labels 的單一資料來源
+config/agent-workflow.example.yml # 專案環境命令設定範本
 docs/                         # Issue Forms 與 Projects 完整教學
 scripts/                      # 繁中 Labels 初始化腳本
 AI_INSTALL.md                 # 給 AI Agent 閱讀的安裝規格
@@ -147,6 +155,19 @@ Status、Priority、Iteration 等流程資訊建議放在 GitHub Projects 欄位
 
 > 若用 AI 安裝或手動複製到其他 repository，記得把 `.github/ISSUE_TEMPLATE/config.yml` 的 Security／Discussions 連結改成目標 repository。沒有啟用 Discussions 時，請移除該 contact link。
 
+## Issue Agent Skills
+
+`.github/skills/` 提供四個去識別化、可依專案調整的範例：
+
+- `issue-start`：依 Issue 建立 branch、worktree、獨立資料庫與預覽網址
+- `issue-check`：開 PR 前核對 Issue、驗收條件、Diff 與測試證據
+- `issue-qa`：操作實際網址或 API，記錄預期、實際結果與證據
+- `pr-review`：依 PR Diff、CI 與關聯 Issue 做範圍內 Review
+
+資料庫、Preview 與清理命令會依技術架構不同，因此範例不包含會直接操作環境的通用腳本。請先把 [`config/agent-workflow.example.yml`](config/agent-workflow.example.yml) 複製成目標 Repo 的 `.github/agent-workflow.yml`，再由人確認真正要執行的命令。
+
+完整安裝方式、安全邊界與流程見 [Issue Agent Skills 使用指南](docs/agent-skills-使用指南.md)。
+
 ## 公開 Projects 範例
 
 [Penance Manager｜GitHub 專案管理繁中完整範例](https://github.com/users/Oliviaiii/projects/1)示範：
@@ -188,6 +209,8 @@ Project 是個人或組織層級的資源，不會隨 Template Repository 一起
 - `id` 不重複且格式有效
 - dropdown／checkboxes／upload 驗證設定合理
 - 表單引用的 Labels 存在於 `config/labels.tsv`
+- Agent Skill 的 `SKILL.md` frontmatter、名稱與資料夾一致
+- Agent workflow 設定範本包含必要區塊
 - `install-manifest.yml` 引用的檔案與 Labels 存在
 
 ## 授權與貢獻

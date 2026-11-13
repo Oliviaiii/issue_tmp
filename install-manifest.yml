@@ -3,6 +3,10 @@ source_repository: "Oliviaiii/issue_tmp"
 labels_file: "config/labels.tsv"
 install_rules:
   issue_form_target: ".github/ISSUE_TEMPLATE"
+  agent_skill_target: ".github/skills"
+  agent_workflow_example: "config/agent-workflow.example.yml"
+  agent_workflow_target: ".github/agent-workflow.yml"
+  require_agent_workflow_review_before_activation: true
   default_overwrite: false
   create_branch: true
   create_pull_request: true
@@ -44,7 +48,7 @@ profiles:
     labels: ["錯誤回報", "功能新增", "功能修改", "任務追蹤", "樣式調整", "技術調研", "文件需求/修正", "待確認"]
 
   agent:
-    description: "產品流程加上可交給 AI Agent 的任務表單"
+    description: "產品流程加上 AI Agent 任務表單與四個可調整的 Issue Skills"
     files:
       - ".github/ISSUE_TEMPLATE/1-bug.yml"
       - ".github/ISSUE_TEMPLATE/2-feature_add.yml"
@@ -57,6 +61,12 @@ profiles:
       - ".github/ISSUE_TEMPLATE/config.yml"
       - ".github/PULL_REQUEST_TEMPLATE.md"
       - ".github/SECURITY.md"
+      - ".github/skills/issue-start/SKILL.md"
+      - ".github/skills/issue-check/SKILL.md"
+      - ".github/skills/issue-qa/SKILL.md"
+      - ".github/skills/pr-review/SKILL.md"
+      - "config/agent-workflow.example.yml"
+      - "docs/agent-skills-使用指南.md"
     labels: ["錯誤回報", "功能新增", "功能修改", "任務追蹤", "樣式調整", "技術調研", "文件需求/修正", "AI 任務", "待確認"]
 
   full:
@@ -77,5 +87,11 @@ profiles:
       - ".github/SECURITY.md"
       - ".github/CONTRIBUTING.md"
       - ".github/CODE_OF_CONDUCT.md"
+      - ".github/skills/issue-start/SKILL.md"
+      - ".github/skills/issue-check/SKILL.md"
+      - ".github/skills/issue-qa/SKILL.md"
+      - ".github/skills/pr-review/SKILL.md"
+      - "config/agent-workflow.example.yml"
+      - "docs/agent-skills-使用指南.md"
     labels: ["錯誤回報", "功能新增", "功能修改", "任務追蹤", "樣式調整", "技術調研", "文件需求/修正", "提問", "線上事故", "AI 任務", "待確認", "重複問題", "適合新手", "歡迎協助", "無效回報", "暫不處理"]
 

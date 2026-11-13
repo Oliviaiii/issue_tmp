@@ -36,8 +36,8 @@ GitHub 檔案變更請建立新 branch 與 Pull Request
 | --- | --- | --- |
 | `starter` | 第一次使用 Issue Forms | Bug、功能新增、一般任務、PR Template、安全政策 |
 | `product` | 產品／專案團隊 | starter ＋功能修改、UI、技術調研、文件 |
-| `agent` | 準備把 Issue 指派給 AI Agent | product ＋ AI Agent 任務表單 |
-| `full` | 開源專案或完整團隊流程 | 全部表單、貢獻指南與行為準則 |
+| `agent` | 準備把 Issue 指派給 AI Agent | product ＋ AI Agent 任務表單＋四個 Issue Skills＋環境設定範本 |
+| `full` | 開源專案或完整團隊流程 | 全部表單、Agent Skills、貢獻指南與行為準則 |
 
 ## AI 執行規格
 
@@ -97,6 +97,27 @@ bash scripts/setup-labels.sh --repo OWNER/REPO
 
 檔案應放在新 branch，例如 `chore/install-issue-templates`，再建立 Pull Request。不要直接寫入 default branch。
 
+### 3.1 安裝 Agent Skills
+
+`agent` 與 `full` profile 會安裝 `.github/skills/` 下的四個 Skill：
+
+- `issue-start`
+- `issue-check`
+- `issue-qa`
+- `pr-review`
+
+同一路徑已存在 Skill 時依衝突規則處理，不可直接覆蓋。
+
+`config/agent-workflow.example.yml` 只是安全範本，不包含任何可直接操作目標環境的命令。若使用者希望啟用 `issue-start` 的獨立 worktree、資料庫與預覽網址流程，AI 必須：
+
+1. 盤點目標 Repo 現有的 Agent 指示檔、開發文件、容器設定與環境腳本
+2. 提出 `.github/agent-workflow.yml` 草稿，列出 branch、worktree、資料庫、Preview、測試與清理命令的來源
+3. 標示仍缺少或無法確認的命令
+4. 等使用者確認後，才把設定檔加入安裝 PR
+5. 安裝過程不執行環境建立、資料庫或清理命令
+
+不得把來源範例中的空字串或空清單當成有效命令；所有命令確認完成前，`environment.enabled` 必須維持 `false`。不得自行猜測 Production、資料刪除或環境清理方式。
+
 ### 4. 衝突處理
 
 如果目標已有 `.github/ISSUE_TEMPLATE/config.yml`、同名表單或 PR Template：
@@ -115,7 +136,9 @@ bash scripts/setup-labels.sh --repo OWNER/REPO
 - 新 branch 上的檔案路徑與內容存在
 - Pull Request 的 base 是目標 Repo 的 default branch
 - profile 需要的 Labels 已存在
+- profile 需要的 Agent Skill 路徑、`SKILL.md` frontmatter 與名稱有效
 - `config.yml` 不含仍指向 `Oliviaiii/issue_tmp` 的 repository 專屬網址
+- 安裝 `.github/agent-workflow.yml` 時，已由使用者確認命令來源，且檔案不含密碼、Token 或正式環境祕密
 - 安裝後的 YAML 可由 parser 正常解析；若目標 Repo 也導入自己的驗證 workflow，該檢查必須通過
 - PR 合併後，模板位於 default branch 的 `.github/ISSUE_TEMPLATE/`
 
